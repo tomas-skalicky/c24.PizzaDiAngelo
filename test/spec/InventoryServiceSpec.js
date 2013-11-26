@@ -1,6 +1,7 @@
 'use strict';
 
 describe('InventoryService Spec', function () {
+  var $http;
   var httpMock;
   var inventoryService;
 
@@ -10,6 +11,7 @@ describe('InventoryService Spec', function () {
   });
 
   beforeEach(inject(function ($injector) {
+    $http = $injector.get('$http');
     httpMock = $injector.get('$httpBackend');
     inventoryService = $injector.get('InventoryService');
   }));
@@ -68,6 +70,36 @@ describe('InventoryService Spec', function () {
       });
 
     httpMock.flush();
+  });
+
+  describe('When fetch was called twice', function () {
+    it('Should call the rest server not more than once', function () {
+      var expectedResult = [ { id: 1, name: 'Mushroom' } ];
+
+      spyOn($http, 'get').andCallThrough();
+
+      httpMock.whenGET('/api/ingredients').respond(200, expectedResult);
+
+      inventoryService.fetchIngredients()
+        .then(function (ingredients) {
+          expect(ingredients).toBeDefined();
+          expect(ingredients.length).toEqual(1);
+          expect($http.get).toHaveBeenCalled();
+
+          $http.get.reset();
+
+          // Now we will start to the second call
+          // the second call must be in the then function because it's async
+          inventoryService.fetchIngredients()
+            .then(function (ingredients) {
+              expect(ingredients).toBeDefined();
+              expect(ingredients.length).toEqual(1);
+              expect($http.get).not.toHaveBeenCalled();
+            });
+        });
+
+      httpMock.flush();
+    });
   });
 
 
