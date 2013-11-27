@@ -26,13 +26,11 @@ services.factory('InventoryService', ['$http', '$q', '$cacheFactory', function (
     var deferred = $q.defer();
 
     var data = that.cache.get(what);
-    console.log('Cached data: ' + data);
     if (data !== undefined) {
       deferred.resolve(data);
     } else {
       $http.get('/api/' + what)
         .success(function (data, status, headers, config) {
-          console.log('Rest data: ' + data);
           that.cache.put(what, data);
           deferred.resolve(data);
         })

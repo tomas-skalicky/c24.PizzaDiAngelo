@@ -82,8 +82,6 @@ describe('InventoryService Spec', function () {
 
       inventoryService.fetchIngredients()
         .then(function (ingredients) {
-          expect(ingredients).toBeDefined();
-          expect(ingredients.length).toEqual(1);
           expect($http.get).toHaveBeenCalled();
 
           $http.get.reset();
@@ -92,8 +90,6 @@ describe('InventoryService Spec', function () {
           // the second call must be in the then function because it's async
           inventoryService.fetchIngredients()
             .then(function (ingredients) {
-              expect(ingredients).toBeDefined();
-              expect(ingredients.length).toEqual(1);
               expect($http.get).not.toHaveBeenCalled();
             });
         });
