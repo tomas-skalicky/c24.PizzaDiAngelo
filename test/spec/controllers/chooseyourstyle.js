@@ -1,22 +1,23 @@
 'use strict';
 
-describe('Controller: ChooseYourStyleCtrl', function () {
-
-  // load the controller's module
-  beforeEach(module('c24.PizzaDiAngeloApp'));
-
+describe('Controller: ChooseYourStyleCtrl', function(){
   var controller, scope;
 
-  // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, $rootScope) {
+  beforeEach(module('c24.PizzaDiAngeloApp'));
+
+  beforeEach(inject(function($controller, $rootScope){
     scope = $rootScope.$new();
     controller = $controller('ChooseYourStyleCtrl', {
       $scope: scope
     });
   }));
 
-  it('should have styles to choose from', function () {
+  it('should have styles to choose from', function(){
     expect(scope.styles).toBeDefined();
+  });
+
+  it('should define a selectedstyle value', function(){
+    expect(scope.selectedstyle).toBeDefined();
   });
 
   it('should have style "A la Carte"', function(){
