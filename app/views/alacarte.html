@@ -1,0 +1,11 @@
+<div>
+	<h1>Pizza perfotto a la carte</h1>
+	<div ng-repeat="pizza in pizzas">
+		<div>
+			<div>{{ pizza.name }}</div>
+			<div>{{ pizza.prices[0].small }}</div>
+			<div><span ng-click="extractFromBasket(pizza)">substract</span>|<span ng-click="addToBasket(pizza)">add</span></div>
+			<div>{{ pizza.inBasketCount || 0 }}</div>
+		</div>
+	</div>
+</div>
