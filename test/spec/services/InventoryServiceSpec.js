@@ -4,6 +4,7 @@ describe('InventoryService Spec', function () {
   var $http;
   var httpMock;
   var inventoryService;
+  var domainName = 'http://localhost:3000';
 
   beforeEach(function () {
     module('c24.PizzaDiAngeloApp');
@@ -19,7 +20,7 @@ describe('InventoryService Spec', function () {
   it('should fetch all pizzas from our restserver', function () {
     var expectedResult = [ { id: 1, name: 'Vegetarian Pizza' } ];
 
-    httpMock.expectGET('/api/pizzas').respond(200, expectedResult);
+    httpMock.expectGET(domainName + '/api/pizzas').respond(200, expectedResult);
 
     inventoryService.fetchPizzas()
       .then(function (pizzas) {
@@ -33,7 +34,7 @@ describe('InventoryService Spec', function () {
   it('should fetch all base pizzas from our restserver', function () {
     var expectedResult = [ { id: 1, name: 'Thin Crust' } ];
 
-    httpMock.expectGET('/api/basepizzas').respond(200, expectedResult);
+    httpMock.expectGET(domainName + '/api/basepizzas').respond(200, expectedResult);
 
     inventoryService.fetchBasePizzas()
       .then(function (basePizzas) {
@@ -47,7 +48,7 @@ describe('InventoryService Spec', function () {
   it('should fetch all sizes from our restserver', function () {
     var expectedResult = [ { id: 1, name: 'Small' } ];
 
-    httpMock.expectGET('/api/sizes').respond(200, expectedResult);
+    httpMock.expectGET(domainName + '/api/sizes').respond(200, expectedResult);
 
     inventoryService.fetchSizes()
       .then(function (sizes) {
@@ -61,7 +62,7 @@ describe('InventoryService Spec', function () {
   it('should fetch all ingredients from our restserver', function () {
     var expectedResult = [ { id: 1, name: 'Mushroom' } ];
 
-    httpMock.expectGET('/api/ingredients').respond(200, expectedResult);
+    httpMock.expectGET(domainName + '/api/ingredients').respond(200, expectedResult);
 
     inventoryService.fetchIngredients()
       .then(function (ingredients) {
@@ -78,7 +79,7 @@ describe('InventoryService Spec', function () {
 
       spyOn($http, 'get').andCallThrough();
 
-      httpMock.whenGET('/api/ingredients').respond(200, expectedResult);
+      httpMock.whenGET(domainName + '/api/ingredients').respond(200, expectedResult);
 
       inventoryService.fetchIngredients()
         .then(function (ingredients) {
