@@ -1,6 +1,7 @@
 'use strict';
 
-var services = services || angular.module('c24.PizzaDiAngeloApp.services', []);
+var services = services || angular.module('c24.PizzaDiAngeloApp.services', []),
+    domainName = 'http://localhost:3000';
 
 services.factory('InventoryService', ['$http', '$q', '$cacheFactory', function ($http, $q, $cacheFactory) {
   var that = this;
@@ -29,7 +30,7 @@ services.factory('InventoryService', ['$http', '$q', '$cacheFactory', function (
     if (data !== undefined) {
       deferred.resolve(data);
     } else {
-      $http.get('/api/' + what)
+      $http.get(domainName +'/api/' + what)
         .success(function (data, status, headers, config) {
           that.cache.put(what, data);
           deferred.resolve(data);

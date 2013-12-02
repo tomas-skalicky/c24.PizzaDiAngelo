@@ -14,4 +14,7 @@ angular.module('c24.PizzaDiAngeloApp', ['c24.PizzaDiAngeloApp.controllers'])
       .otherwise({
         redirectTo: '/'
       });
-  });
+  })
+  .config(['$httpProvider', function($httpProvider) {
+    delete $httpProvider.defaults.headers.common['X-Requested-With'];;
+  }]);
