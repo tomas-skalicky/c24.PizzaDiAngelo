@@ -11,10 +11,6 @@ services.factory('InventoryService', ['$http', '$q', '$cacheFactory', function (
     return fetchInventoryFromServer('pizzas');
   };
 
-  var fetchSizes = function () {
-    return fetchInventoryFromServer('sizes');
-  };
-
   var fetchIngredients = function () {
     return fetchInventoryFromServer('ingredients');
   };
@@ -46,7 +42,6 @@ services.factory('InventoryService', ['$http', '$q', '$cacheFactory', function (
   return {
     fetchPizzas: fetchPizzas,
     fetchBasePizzas: fetchBasePizzas,
-    fetchSizes: fetchSizes,
     fetchIngredients: fetchIngredients
   };
 }]);
