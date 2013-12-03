@@ -5,8 +5,8 @@ var services = services || angular.module('c24.PizzaDiAngeloApp.services', []);
 services.factory('BasketService', ['$http', '$q', '$timeout', 'PriceCalculatorService', function ($http, $q, $timeout, priceCalculator) {
   this.basket = { items: [], address: undefined, price: 0 };
 
-  var clear = function () {
-    this.basket = { items: [], address: undefined, price: 0 };
+  var addAddress = function (name, street, zipcode, city, phone) {
+    this.basket.address = { name: name, street: street, zipcode: zipcode, city: city, phone: phone};
   };
 
   var addItem = function (pizza, count, ingredients) {
@@ -29,16 +29,21 @@ services.factory('BasketService', ['$http', '$q', '$timeout', 'PriceCalculatorSe
     return basketItem;
   };
 
-  var addAddress = function (name, street, zipcode, city, phone) {
-    this.basket.address = { name: name, street: street, zipcode: zipcode, city: city, phone: phone};
+  var clear = function () {
+    this.basket = { items: [], address: undefined, price: 0 };
   };
 
-  var removeItem = function (basketItem) {
-    var index = this.basket.items.indexOf(basketItem);
-    if (index >= 0) {
-      this.basket.items.splice(index, 1);
-      this.basket.price = priceCalculator.calculateTotalPrice(this.basket.items);
-    }
+  var createAndAddBasketItem = function (basketItems, pizza, count, price) {
+    var basketItem = { pizza: pizza, count: count, price: price };
+    basketItems.push(basketItem);
+    return basketItem;
+  };
+
+  var findBasketItemByPizza = function (basketItems, pizza) {
+    var filteredItems = basketItems.filter(function (item) {
+      return item.pizza.id === pizza.id;
+    });
+    return filteredItems.length > 0 ? filteredItems[0] : null;
   };
 
   var order = function () {
@@ -53,22 +58,17 @@ services.factory('BasketService', ['$http', '$q', '$timeout', 'PriceCalculatorSe
     return deferred.promise;
   };
 
-  var createAndAddBasketItem = function (basketItems, pizza, count, price) {
-    var basketItem = { pizza: pizza, count: count, price: price };
-    basketItems.push(basketItem);
-    return basketItem;
+  var removeItem = function (basketItem) {
+    var index = this.basket.items.indexOf(basketItem);
+    if (index >= 0) {
+      this.basket.items.splice(index, 1);
+      this.basket.price = priceCalculator.calculateTotalPrice(this.basket.items);
+    }
   };
 
   var updateBasketItem = function (basketItem, count, price) {
     basketItem.count += count;
     basketItem.price += price;
-  };
-
-  var findBasketItemByPizza = function (basketItems, pizza) {
-    var filteredItems = basketItems.filter(function (item) {
-      return item.pizza.id === pizza.id;
-    });
-    return filteredItems.length > 0 ? filteredItems[0] : null;
   };
 
   return {
