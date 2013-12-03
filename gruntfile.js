@@ -243,6 +243,11 @@ module.exports = function (grunt) {
         configFile: 'karma.conf.js',
         singleRun: true
       },
+      debug: {
+        configFile: 'karma.conf.js',
+        singleRun: false,
+        browsers: ['Chrome']
+      },
       e2e: {
         configFile: 'karma-e2e.conf.js',
         singleRun: true
