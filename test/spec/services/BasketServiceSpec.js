@@ -49,6 +49,16 @@ describe('BasketServiceSpec', function () {
       $timeout.flush();
     });
   });
+
+  describe('When the user added the same pizza twice', function () {
+    it('Should update the existing basket item', function () {
+      var pizza = { id: 1, name: 'Vegetarian Pizza', price: 5 };
+      service.addItem(pizza, 2);
+      var basketItem = service.addItem(pizza, 2);
+      expect(basketItem.price).toEqual(20);
+      expect(service.basket.items.length).toEqual(1);
+    });
+  });
 });
 
 
