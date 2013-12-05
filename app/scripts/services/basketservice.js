@@ -13,7 +13,7 @@ services.factory('BasketService', ['$http', '$q', '$timeout', 'PriceCalculatorSe
     var price = priceCalculator.calculate(pizza, count, ingredients);
 
     if (ingredients !== undefined) {
-      pizza = { pizza: pizza, igredients: ingredients };
+      pizza = { pizza: pizza, ingredients: ingredients };
     }
 
     var basketItem = { pizza: pizza, count: count, price: price };

@@ -45,20 +45,6 @@ describe('InventoryService Spec', function () {
     httpMock.flush();
   });
 
-  it('should fetch all sizes from our restserver', function () {
-    var expectedResult = [ { id: 1, name: 'Small' } ];
-
-    httpMock.expectGET(domainName + '/api/sizes').respond(200, expectedResult);
-
-    inventoryService.fetchSizes()
-      .then(function (sizes) {
-        expect(sizes).toBeDefined();
-        expect(sizes.length).toEqual(1);
-      });
-
-    httpMock.flush();
-  });
-
   it('should fetch all ingredients from our restserver', function () {
     var expectedResult = [ { id: 1, name: 'Mushroom' } ];
 
