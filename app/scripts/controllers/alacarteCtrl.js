@@ -5,20 +5,18 @@ angular.module('c24.PizzaDiAngeloApp.controllers', ['c24.PizzaDiAngeloApp.servic
 		$scope.pizzas = InventoryService.fetchBasePizzas();
 
 		$scope.addToBasket = function(pizza) {
-			//Should relly on Basket service. Wee need that service to proceed
-			var inBasketCount = (pizza.inBasketCount || 0) + 1;
-			pizza.inBasketCount = inBasketCount;
-
 			BasketService.addItem(pizza, 1);
-			console.log(BasketService.basket.items);
+			pizza.inBasketCount = BasketService.getTotalPizzaCountByPizzaId(pizza.id);
 		}
 
 		$scope.extractFromBasket = function(pizza) {
-			//Should relly on Basket service. Wee need that service to proceed
-			var inBasketCount = (pizza.inBasketCount || 0) - 1;
-			pizza.inBasketCount = inBasketCount;
+			var basketItems = BasketService.getItemsByPizzaId(pizza.id),
+				basketItem;
 
-			BasketService.removeItem(pizza);
-			console.log(BasketService.basket.items);
+			if(basketItems.length > 0) {
+				basketItem = basketItems[0];
+				BasketService.removeItem(basketItem);
+				pizza.inBasketCount = BasketService.getTotalPizzaCountByPizzaId(pizza.id);
+			}
 		}
 	});
