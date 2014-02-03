@@ -7,7 +7,7 @@ angular.module('c24.PizzaDiAngeloApp.controllers', ['c24.PizzaDiAngeloApp.servic
 		$scope.addToBasket = function(pizza) {
 			BasketService.addItem(pizza, 1);
 			pizza.inBasketCount = BasketService.getTotalPizzaCountByPizzaId(pizza.id);
-		}
+		};
 
 		$scope.extractFromBasket = function(pizza) {
 			var basketItems = BasketService.getItemsByPizzaId(pizza.id),
@@ -18,5 +18,5 @@ angular.module('c24.PizzaDiAngeloApp.controllers', ['c24.PizzaDiAngeloApp.servic
 				BasketService.removeItem(basketItem);
 				pizza.inBasketCount = BasketService.getTotalPizzaCountByPizzaId(pizza.id);
 			}
-		}
+		};
 	});

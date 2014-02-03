@@ -16,5 +16,5 @@ angular.module('c24.PizzaDiAngeloApp', ['c24.PizzaDiAngeloApp.controllers'])
       });
   })
   .config(['$httpProvider', function($httpProvider) {
-    delete $httpProvider.defaults.headers.common['X-Requested-With'];;
+    delete $httpProvider.defaults.headers.common['X-Requested-With'];
   }]);

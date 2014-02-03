@@ -21,9 +21,9 @@ services.factory('BasketService', ['$http', '$q', '$timeout', 'PriceCalculatorSe
 
   var getTotalPizzaCountByPizzaId = function(pizzaId) {
     var basketItems = this.getItemsByPizzaId(pizzaId),
-      pizzasCount = _.reduce(basketItems, function(memo, key) {
-        return memo + key.count;
-    }, 0);
+      pizzasCount = basketItems.reduce(function(previous, current) {
+        return previous + current.count;
+      }, 0);
     return pizzasCount;
   };
 
