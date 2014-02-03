@@ -15,8 +15,9 @@ angular.module('c24.PizzaDiAngeloApp.controllers', ['c24.PizzaDiAngeloApp.servic
 
 			if(basketItems.length > 0) {
 				basketItem = basketItems[0];
-				BasketService.removeItem(basketItem);
-				pizza.inBasketCount = BasketService.getTotalPizzaCountByPizzaId(pizza.id);
+				BasketService.removeItem(basketItem, 1);
+
+				pizza.inBasketCount = basketItem.count;
 			}
 		};
 	});

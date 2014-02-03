@@ -76,10 +76,15 @@ services.factory('BasketService', ['$http', '$q', '$timeout', 'PriceCalculatorSe
     return deferred.promise;
   };
 
-  var removeItem = function (basketItem) {
+  var removeItem = function (basketItem, count) {
     var index = this.basket.items.indexOf(basketItem);
     if (index >= 0) {
-      this.basket.items.splice(index, 1);
+      if(count && count < basketItem.count) {
+        basketItem.count -= count;
+        basketItem.price = basketItem.pizza.price * basketItem.count;
+      } else {
+        this.basket.items.splice(index, 1);
+      }
       this.basket.price = priceCalculator.calculateTotalPrice(this.basket.items);
     }
   };

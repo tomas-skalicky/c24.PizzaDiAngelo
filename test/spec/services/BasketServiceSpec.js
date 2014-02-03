@@ -27,12 +27,48 @@ describe('BasketServiceSpec', function () {
   });
 
   describe('When the user wants to remove a item', function () {
-    it('Should removed from the basket items and recalculates the price', function () {
+    var basketItem;
+    beforeEach(function () {
       var pizza = { id: 1, name: 'Vegetarian Pizza', price: 5 };
-      var basketItem = service.addItem(pizza, 2);
-      service.removeItem(basketItem);
-      expect(service.basket.items.length).toEqual(0);
-      expect(service.basket.price).toEqual(0);
+      basketItem = service.addItem(pizza, 5);
+    });
+
+    describe('When no item count is passed to the "removeItem" method', function () {
+      beforeEach(function () {
+        service.removeItem(basketItem);
+      });
+
+      it('Should removed from the basket items and recalculates the price', function () {
+        expect(service.basket.items.length).toEqual(0);
+        expect(service.basket.price).toEqual(0);
+      });
+    });
+
+    describe('When an item count is also passed to the "removeItem" method', function () {
+      describe('When the item count passed is lower than the basket item count', function () {
+        beforeEach(function () {
+          service.removeItem(basketItem, 4);
+        });
+
+        it('Should not remove the item from the basket, but lower the item count', function () {
+          expect(service.basket.items.length).toEqual(1);
+          expect(basketItem.count).toEqual(1);
+        });
+        it('Should calculate the correct price', function () {
+          expect(service.basket.price).toEqual(5);
+        });
+      });
+
+      describe('When the item count passed is bigger than the basket item count', function () {
+        beforeEach(function () {
+          service.removeItem(basketItem, 6);
+        });
+
+        it('Should remove the basket item completely', function () {
+          expect(service.basket.items.length).toEqual(0);
+          expect(service.basket.price).toEqual(0);
+        });
+      });
     });
   });
 

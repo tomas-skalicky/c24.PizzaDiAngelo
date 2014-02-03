@@ -32,11 +32,18 @@ describe('Controller: ALaCarteCtrl', function(){
   	expect($scope.pizzas).toBe(pizzasMockResponse);
   });
 
-  describe('When adding pizzas', function() {
-    it('Pizzas added should increase pizza.inBasketCount', function(){
-      var pizza = $scope.pizzas[0];
-      $scope.addToBasket(pizza);
-      expect(pizza.inBasketCount).toBe(1);
+  describe('When adding 5 pizzas of the same type', function() {
+    beforeEach(function () {
+      var firstPizza = $scope.pizzas[0];
+      $scope.addToBasket(firstPizza);
+      $scope.addToBasket(firstPizza);
+      $scope.addToBasket(firstPizza);
+      $scope.addToBasket(firstPizza);
+      $scope.addToBasket(firstPizza);
+    });
+
+    it('Pizzas count in the basket shoud be 5', function(){
+      expect(pizza.inBasketCount).toBe(5);
     });
 
     it('BasketService.addItem should be called', function(){
@@ -50,11 +57,15 @@ describe('Controller: ALaCarteCtrl', function(){
   });
 
   describe('When removing pizzas', function() {
-    it('Pizzas added should decrease pizza.inBasketCount', function(){
-      var pizza = $scope.pizzas[0];
-      pizza.inBasketCount = 10;
+    beforeEach(function () {
+      var firstPizza = $scope.pizzas[0];
+      $scope.addToBasket(firstPizza);
+      controller.addToBasket(firstPizza);
+    });
+
+    it('Pizzas should decrease pizza basket item count', function(){
       $scope.extractFromBasket(pizza);
-      expect(pizza.inBasketCount).toBe(9);
+      expect(pizza.inBasketCount).toBe(1);
     });
 
     it('BasketService.removeItem should be called', function(){
