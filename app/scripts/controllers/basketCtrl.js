@@ -1,7 +1,7 @@
 (function(controllers) {
-	'use strict';
+  'use strict';
 
-	controllers.controller('BasketCtrl', function ($scope) {
-	});
+  controllers.controller('BasketCtrl', function ($scope) {
+  });
 
 })(controllers);
