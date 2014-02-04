@@ -1,1 +1,11 @@
-<div>BASKET</div>
+<div>
+  <h4>Basket</h4>
+  <div ng-repeat="basketItem in basket.items">
+    <div class="row">
+      <div class="col-md-6">{{ basketItem.pizza.name }}</div>
+      <div class="col-md-2">{{ basketItem.count }}</div>
+      <div class="col-md-3">{{ basketItem.price }}$</div>
+    </div>
+  </div>
+  </div><strong>Total price: {{ basket.price }}$<strong></div>
+</div>

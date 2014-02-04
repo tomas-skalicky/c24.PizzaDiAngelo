@@ -12,6 +12,9 @@
       </div>
     </div>
   </section>
-  <section class="col-md-3" ng-include="'/views/basket.html'" ng-controller="BasketCtrl"></section>
-  <button ng-click="checkout()" class="btn btn-default">checkout</button>
+  <section class="col-md-3">
+      <div ng-include="'/views/basket.html'" ng-controller="BasketCtrl"></div>
+      <button ng-click="checkout()" class="btn btn-default">checkout</button>
+  </section>
+
 </div>

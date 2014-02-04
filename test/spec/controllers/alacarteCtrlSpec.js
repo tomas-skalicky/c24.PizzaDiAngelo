@@ -18,10 +18,10 @@ describe('Controller: ALaCarteCtrl', function(){
     $locationService = $location;
     $scope = $rootScope.$new();
 
-    mockInventoryService = sinon.stub({ fetchBasePizzas: function () {} });
+    mockInventoryService = sinon.stub({ fetchPizzas: function () {} });
     basketService = $injector.get('BasketService');
 
-    mockInventoryService.fetchBasePizzas.returns(pizzasMockResponse);
+    mockInventoryService.fetchPizzas.returns(pizzasMockResponse);
     controller = $controllerService('ALaCarteCtrl', {
       $scope: $scope,
       $location: $locationService,

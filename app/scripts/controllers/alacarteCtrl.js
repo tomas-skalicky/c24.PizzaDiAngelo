@@ -2,7 +2,7 @@
   'use strict';
 
   controllers.controller('ALaCarteCtrl', function ($scope, $location, InventoryService, BasketService) {
-    $scope.pizzas = InventoryService.fetchBasePizzas();
+    $scope.pizzas = InventoryService.fetchPizzas();
 
     $scope.addToBasket = function(pizza) {
       BasketService.addItem(pizza, 1);
