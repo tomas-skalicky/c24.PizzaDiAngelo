@@ -1,7 +1,7 @@
 (function(controllers) {
-	'use strict';
+  'use strict';
 
-	controllers.controller('CheckoutCtrl', function ($scope) {
-	});
+  controllers.controller('CheckoutCtrl', function ($scope) {
+  });
 
 })(controllers);

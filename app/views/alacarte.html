@@ -1,17 +1,17 @@
 <div>
-	<h1>Pizza perfotto a la carte</h1>
-	<section class="col-md-9">
-		<div ng-repeat="pizza in pizzas">
-			<div class="row">
-				<div class="col-md-4">{{ pizza.name }}</div>
-				<div class="col-md-1">{{ pizza.price }}$</div>
-				<div class="col-md-3">
-					<span ng-click="extractFromBasket(pizza)" class="btn btn-link">substract</span>|<span ng-click="addToBasket(pizza)" class="btn btn-link">add</span>
-				</div>
-				<div class="col-md-1">{{ pizza.inBasketCount || 0 }}</div>
-			</div>
-		</div>
-	</section>
-	<section class="col-md-3" ng-include="'/views/basket.html'" ng-controller="BasketCtrl"></section>
-	<button ng-click="checkout()" class="btn btn-default">checkout</button>
+  <h1>Pizza perfotto a la carte</h1>
+  <section class="col-md-9">
+    <div ng-repeat="pizza in pizzas">
+      <div class="row">
+        <div class="col-md-4">{{ pizza.name }}</div>
+        <div class="col-md-1">{{ pizza.price }}$</div>
+        <div class="col-md-3">
+          <span ng-click="extractFromBasket(pizza)" class="btn btn-link">substract</span>|<span ng-click="addToBasket(pizza)" class="btn btn-link">add</span>
+        </div>
+        <div class="col-md-1">{{ pizza.inBasketCount || 0 }}</div>
+      </div>
+    </div>
+  </section>
+  <section class="col-md-3" ng-include="'/views/basket.html'" ng-controller="BasketCtrl"></section>
+  <button ng-click="checkout()" class="btn btn-default">checkout</button>
 </div>
