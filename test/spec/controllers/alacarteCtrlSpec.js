@@ -33,8 +33,11 @@ describe('Controller: ALaCarteCtrl', function(){
   });
 
   describe('When adding 5 pizzas of the same type', function() {
+    var firstPizza,
+      addItemSpy;
     beforeEach(function () {
-      var firstPizza = $scope.pizzas[0];
+      addItemSpy = spyOn(basketService, 'addItem').andCallThrough();
+      firstPizza = $scope.pizzas[0]
       $scope.addToBasket(firstPizza);
       $scope.addToBasket(firstPizza);
       $scope.addToBasket(firstPizza);
@@ -43,38 +46,29 @@ describe('Controller: ALaCarteCtrl', function(){
     });
 
     it('Pizzas count in the basket shoud be 5', function(){
+      var pizza = $scope.pizzas[0];
       expect(pizza.inBasketCount).toBe(5);
     });
 
     it('BasketService.addItem should be called', function(){
+      expect(addItemSpy).toBeHaveBeenCalled();
+    });
+
+    describe('When removing pizzas', function() {
       var pizza = $scope.pizzas[0],
-        spy = spyOn(basketService, 'addItem');
+        removeItemSpy;
+      beforeEach(function () {
+        removeItemSpy = spyOn(basketService, 'removeItem').andCallThrough();
+        $scope.extractFromBasket(pizza);
+      });
 
-      $scope.addToBasket(pizza);
+      it('Pizzas should decrease pizza basket item count', function(){
+        expect(pizza.inBasketCount).toBe(4);
+      });
 
-      expect(spy.wasCalled).toBe(true);
-    });
-  });
-
-  describe('When removing pizzas', function() {
-    beforeEach(function () {
-      var firstPizza = $scope.pizzas[0];
-      $scope.addToBasket(firstPizza);
-      controller.addToBasket(firstPizza);
-    });
-
-    it('Pizzas should decrease pizza basket item count', function(){
-      $scope.extractFromBasket(pizza);
-      expect(pizza.inBasketCount).toBe(1);
-    });
-
-    it('BasketService.removeItem should be called', function(){
-      var pizza = $scope.pizzas[0],
-        spy = spyOn(basketService, 'removeItem');
-
-      $scope.extractFromBasket(pizza);
-
-      expect(spy.wasCalled).toBe(true);
+      it('BasketService.removeItem should be called', function(){
+        expect(removeItemSpy).toBeHaveBeenCalled();
+      });
     });
   });
 });
