@@ -51,13 +51,14 @@ describe('Controller: ALaCarteCtrl', function(){
     });
 
     it('BasketService.addItem should be called', function(){
-      expect(addItemSpy).toBeHaveBeenCalled();
+      expect(addItemSpy).toHaveBeenCalled();
     });
 
     describe('When removing pizzas', function() {
-      var pizza = $scope.pizzas[0],
+      var pizza,
         removeItemSpy;
       beforeEach(function () {
+        pizza = $scope.pizzas[0]
         removeItemSpy = spyOn(basketService, 'removeItem').andCallThrough();
         $scope.extractFromBasket(pizza);
       });
@@ -67,7 +68,7 @@ describe('Controller: ALaCarteCtrl', function(){
       });
 
       it('BasketService.removeItem should be called', function(){
-        expect(removeItemSpy).toBeHaveBeenCalled();
+        expect(removeItemSpy).toHaveBeenCalled();
       });
     });
   });
