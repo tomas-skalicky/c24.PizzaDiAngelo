@@ -15,8 +15,12 @@ module.exports = function(config) {
     files: [
       'app/lib/angular/angular.js',
       'app/lib/angular-mocks/angular-mocks.js',
+      'app/lib/sinon/lib/sinon.js',
+      'app/lib/sinon/lib/sinon/spy.js',
+      'app/lib/sinon/lib/sinon/**/*.js',
       'app/scripts/*.js',
-      'app/scripts/**/*.js',
+      'app/scripts/services/*.js',
+      'app/scripts/controllers/*.js',
       'test/mock/**/*.js',
       'test/spec/**/*.js'
     ],

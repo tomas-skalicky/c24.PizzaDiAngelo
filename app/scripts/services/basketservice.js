@@ -9,6 +9,24 @@ services.factory('BasketService', ['$http', '$q', '$timeout', 'PriceCalculatorSe
     this.basket.address = { name: name, street: street, zipcode: zipcode, city: city, phone: phone};
   };
 
+  var getItemsByPizzaId = function (pizzaId) {
+    var index, basketItems = [];
+    for(index = 0; index < this.basket.items.length; index++) {
+      if(this.basket.items[index].pizza.id === pizzaId) {
+        basketItems.push(this.basket.items[index]);
+      }
+    }
+    return basketItems;
+  };
+
+  var getTotalPizzaCountByPizzaId = function(pizzaId) {
+    var basketItems = this.getItemsByPizzaId(pizzaId),
+      pizzasCount = basketItems.reduce(function(previous, current) {
+        return previous + current.count;
+      }, 0);
+    return pizzasCount;
+  };
+
   var addItem = function (pizza, count, ingredients) {
     var basketItem;
     var price = priceCalculator.calculate(pizza, count, ingredients);
@@ -58,10 +76,17 @@ services.factory('BasketService', ['$http', '$q', '$timeout', 'PriceCalculatorSe
     return deferred.promise;
   };
 
-  var removeItem = function (basketItem) {
+  var removeItem = function (basketItem, count) {
     var index = this.basket.items.indexOf(basketItem);
     if (index >= 0) {
-      this.basket.items.splice(index, 1);
+      if(count && count < basketItem.count) {
+        basketItem.count -= count;
+        basketItem.price = basketItem.pizza.price * basketItem.count;
+      } else {
+        this.basket.items.splice(index, 1);
+        basketItem.count = 0;
+        basketItem.price = 0;
+      }
       this.basket.price = priceCalculator.calculateTotalPrice(this.basket.items);
     }
   };
@@ -73,6 +98,8 @@ services.factory('BasketService', ['$http', '$q', '$timeout', 'PriceCalculatorSe
 
   return {
     basket: this.basket,
+    getItemsByPizzaId: getItemsByPizzaId,
+    getTotalPizzaCountByPizzaId: getTotalPizzaCountByPizzaId,
     addAddress: addAddress,
     addItem: addItem,
     clear: clear,
