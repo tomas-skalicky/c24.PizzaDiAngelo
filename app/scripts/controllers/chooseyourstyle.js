@@ -1,7 +1,18 @@
-'use strict';
+(function(controllers) {
+	'use strict';
 
-angular.module('c24.PizzaDiAngeloApp')
-  .controller('ChooseYourStyleCtrl', function ($scope) {
-    $scope.styles = ['A la Carte', 'Go Crazy'];
+	controllers.controller('ChooseYourStyleCtrl', function ($scope, $location) {
+		$scope.styles = ['A la Carte', 'Go Crazy'];
     $scope.selectedstyle = '';
-  });
+
+    $scope.navigate = function () {
+    	if($scope.selectedstyle === $scope.styles[0]) {
+				$location.path('alacarte');
+    	} else {
+    		$location.path('gocrazy');
+    	}
+    };
+
+	});
+
+})(controllers);

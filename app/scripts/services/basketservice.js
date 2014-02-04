@@ -84,6 +84,8 @@ services.factory('BasketService', ['$http', '$q', '$timeout', 'PriceCalculatorSe
         basketItem.price = basketItem.pizza.price * basketItem.count;
       } else {
         this.basket.items.splice(index, 1);
+        basketItem.count = 0;
+        basketItem.price = 0;
       }
       this.basket.price = priceCalculator.calculateTotalPrice(this.basket.items);
     }

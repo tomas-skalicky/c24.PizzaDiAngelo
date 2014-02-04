@@ -38,9 +38,17 @@ describe('BasketServiceSpec', function () {
         service.removeItem(basketItem);
       });
 
-      it('Should removed from the basket items and recalculates the price', function () {
+      it('Should be removed from basket items', function () {
         expect(service.basket.items.length).toEqual(0);
+      });
+      it('Should recalculate the basket price and set it to 0', function () {
         expect(service.basket.price).toEqual(0);
+      });
+      it('Should recalculate the item price and set it to 0', function () {
+        expect(basketItem.price).toEqual(0);
+      });
+      it('Should set the basket item pizza count to 0', function () {
+        expect(basketItem.count).toEqual(0);
       });
     });
 
@@ -64,9 +72,19 @@ describe('BasketServiceSpec', function () {
           service.removeItem(basketItem, 6);
         });
 
-        it('Should remove the basket item completely', function () {
+        it('Should remove item from the basket', function () {
           expect(service.basket.items.length).toEqual(0);
-          expect(service.basket.price).toEqual(0);
+        });
+
+        it('Should recalculate and set the basket price to 0', function () {
+          expect(service.basket.items.length).toEqual(0);
+        });
+
+        it('Should recalculate the item price and set it to 0', function () {
+          expect(basketItem.price).toEqual(0);
+        });
+        it('Should set the basket item pizza count to 0', function () {
+          expect(basketItem.count).toEqual(0);
         });
       });
     });

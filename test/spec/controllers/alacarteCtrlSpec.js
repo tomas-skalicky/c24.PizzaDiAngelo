@@ -58,7 +58,7 @@ describe('Controller: ALaCarteCtrl', function(){
       var pizza,
         removeItemSpy;
       beforeEach(function () {
-        pizza = $scope.pizzas[0]
+        pizza = $scope.pizzas[0];
         removeItemSpy = spyOn(basketService, 'removeItem').andCallThrough();
         $scope.extractFromBasket(pizza);
       });

@@ -1,7 +1,7 @@
-'use strict';
+(function(controllers) {
+	'use strict';
 
-angular.module('c24.PizzaDiAngeloApp.controllers', ['c24.PizzaDiAngeloApp.services'])
-	.controller('ALaCarteCtrl', function ($scope, $timeout, InventoryService, BasketService) {
+	controllers.controller('ALaCarteCtrl', function ($scope, $timeout, InventoryService, BasketService) {
 		$scope.pizzas = InventoryService.fetchBasePizzas();
 
 		$scope.addToBasket = function(pizza) {
@@ -16,8 +16,9 @@ angular.module('c24.PizzaDiAngeloApp.controllers', ['c24.PizzaDiAngeloApp.servic
 			if(basketItems.length > 0) {
 				basketItem = basketItems[0];
 				BasketService.removeItem(basketItem, 1);
-
 				pizza.inBasketCount = basketItem.count;
 			}
 		};
 	});
+
+})(controllers);
