@@ -15,6 +15,10 @@ angular.module('c24.PizzaDiAngeloApp', [
         templateUrl: 'views/alacarte.html',
         controller: 'ALaCarteCtrl'
       })
+      .when('/checkout', {
+        templateUrl: 'views/checkout.html',
+        controller: 'CheckoutCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });

@@ -1,7 +1,7 @@
 'use strict';
 
 describe('Controller: ALaCarteCtrl', function(){
-  var $controllerService, $scope,
+  var $controllerService, $scope, $locationService,
     controller,
     pizzasMockResponse,
 	  mockInventoryService,
@@ -12,9 +12,10 @@ describe('Controller: ALaCarteCtrl', function(){
     module('c24.PizzaDiAngeloApp.controllers');
   });
 
-  beforeEach(inject(function($injector, $controller, $rootScope){
+  beforeEach(inject(function($injector, $controller, $rootScope, $location){
     pizzasMockResponse = [ { id: 1, name: 'Thin Crust' } ];
   	$controllerService = $controller;
+    $locationService = $location;
     $scope = $rootScope.$new();
 
     mockInventoryService = sinon.stub({ fetchBasePizzas: function () {} });
@@ -23,6 +24,7 @@ describe('Controller: ALaCarteCtrl', function(){
     mockInventoryService.fetchBasePizzas.returns(pizzasMockResponse);
     controller = $controllerService('ALaCarteCtrl', {
       $scope: $scope,
+      $location: $locationService,
       InventoryService: mockInventoryService,
       BasketService: basketService
     });
@@ -30,6 +32,18 @@ describe('Controller: ALaCarteCtrl', function(){
 
   it('Pizzas are defined', function(){
   	expect($scope.pizzas).toBe(pizzasMockResponse);
+  });
+
+  describe('When checkout is done', function () {
+    var locationPathSpy;
+    beforeEach(function () {
+      locationPathSpy = spyOn($locationService, 'path');
+      $scope.checkout();
+    });
+
+    it('Should use the location service to navigate to checkout', function () {
+      expect(locationPathSpy).toHaveBeenCalledWith('checkout');
+    });
   });
 
   describe('When adding 5 pizzas of the same type', function() {

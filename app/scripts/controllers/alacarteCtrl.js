@@ -1,7 +1,7 @@
 (function(controllers) {
 	'use strict';
 
-	controllers.controller('ALaCarteCtrl', function ($scope, $timeout, InventoryService, BasketService) {
+	controllers.controller('ALaCarteCtrl', function ($scope, $location, InventoryService, BasketService) {
 		$scope.pizzas = InventoryService.fetchBasePizzas();
 
 		$scope.addToBasket = function(pizza) {
@@ -18,6 +18,10 @@
 				BasketService.removeItem(basketItem, 1);
 				pizza.inBasketCount = basketItem.count;
 			}
+		};
+
+		$scope.checkout = function () {
+			$location.path('checkout');
 		};
 	});
 
