@@ -27,40 +27,53 @@ describe('BasketServiceSpec', function () {
   });
 
   describe('When the user adds a base pizza to the basket', function () {
-    var pizza;
+    var pizza, basketItem;
     beforeEach(function () {
       pizza = { id: 1, name: 'Thin Crust', price: 1.5 };
+      basketItem = service.addBaseItem(pizza, 2);
+    });
+
+    it('Should be marked as a base pizza', function () {
+      expect(basketItem.isBasePizza).toBe(true);
+    });
+
+    it('Should have empty ingredients', function () {
+      expect(basketItem.ingredients).toBeDefined();
+      expect(basketItem.ingredients.length).toBe(0);
     });
 
     describe('When the user adds ingredients', function () {
-      var basketItem;
+      var ingredient = {"id":1,"name":"Mushroom","price":1},
+        initialPrice;
       beforeEach(function () {
-        basketItem = service.addBaseItem(pizza, 2);
+        initialPrice = basketItem.price;
+        basketItem.addIngredient(ingredient);
       });
 
-      it('Should be marked as a base pizza', function () {
-        expect(basketItem.isBasePizza).toBe(true);
+      it('Should have that ingredient', function () {
+        expect(basketItem.ingredients.indexOf(ingredient)).not.toBe(-1);
       });
 
-      it('Should have empty ingredients', function () {
-        expect(basketItem.ingredients).toBeDefined();
-        expect(basketItem.ingredients.length).toBe(0);
-      });
-    });
-
-    describe('When the user adds no ingredients', function () {
-      var basketItem;
-      beforeEach(function () {
-        basketItem = service.addBaseItem(pizza, 2, [ {"id":1,"name":"Mushroom","price":1} ]);
+      it('Should recalculate the basketItemPrice', function () {
+        var expectedPrice = initialPrice + (ingredient.price * basketItem.count);
+        expect(basketItem.price).toBe(expectedPrice);
       });
 
-      it('Should be marked as a base pizza', function () {
-        expect(basketItem.isBasePizza).toBe(true);
-      });
+      describe('When the user removes ingredients', function () {
+        var priceBeforeRemove;
+        beforeEach(function () {
+          priceBeforeRemove = basketItem.price;
+          basketItem.removeIngredient(ingredient);
+        });
 
-      it('Should have one ingredient', function () {
-        expect(basketItem.ingredients).toBeDefined();
-        expect(basketItem.ingredients.length).toBe(1);
+        it('Should not have that ingredient', function () {
+          expect(basketItem.ingredients.indexOf(ingredient)).toBe(-1);
+        });
+
+        it('Should recalculate the basketItemPrice', function () {
+          var expectedPrice = priceBeforeRemove - (ingredient.price * basketItem.count);
+          expect(basketItem.price).toBe(expectedPrice);
+        });
       });
     });
   });

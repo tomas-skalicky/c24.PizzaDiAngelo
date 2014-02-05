@@ -42,7 +42,7 @@ services.factory('BasketService', ['$http', '$q', '$timeout', 'PriceCalculatorSe
     if(basketItem) {
       updateBasketItem(basketItem, count, price);
     } else {
-      basketItem = createAndAddBasketItem(this.basket.items, pizza, count, price);
+      basketItem = createAndAddBasketItem.call(this, this.basket.items, pizza, count, price);
     }
 
     this.basket.price = priceCalculator.calculateTotalPrice(this.basket.items);
@@ -56,8 +56,9 @@ services.factory('BasketService', ['$http', '$q', '$timeout', 'PriceCalculatorSe
     if(basketItem) {
       updateBasketItem(basketItem, count, price);
     } else {
-      basketItem = createAndAddBasketItem(this.basket.items, pizza, count, price, ingredients || []);
+      basketItem = createAndAddBasketItem.call(this, this.basket.items, pizza, count, price, ingredients || []);
     }
+    this.basket.price = priceCalculator.calculateTotalPrice(this.basket.items);
     return basketItem;
   }
 
@@ -66,13 +67,24 @@ services.factory('BasketService', ['$http', '$q', '$timeout', 'PriceCalculatorSe
   };
 
   var createAndAddBasketItem = function (basketItems, pizza, count, price, ingredients) {
-    var basketItem = {
-      pizza: pizza,
-      count: count,
-      price: price,
-      ingredients: ingredients,
-      isBasePizza: angular.isArray(ingredients)
-    };
+    var that = this,
+      basketItem = {
+        pizza: pizza,
+        count: count,
+        price: price,
+        ingredients: ingredients,
+        isBasePizza: angular.isArray(ingredients),
+        addIngredient: function (ingredient) {
+          this.ingredients.push(ingredient);
+          this.price = priceCalculator.calculate(this.pizza, this.count, this.ingredients);
+          that.basket.price = priceCalculator.calculateTotalPrice(that.basket.items);
+        },
+        removeIngredient: function (ingredient) {
+          this.ingredients.splice(this.ingredients.indexOf(ingredient), 1);
+          this.price = priceCalculator.calculate(this.pizza, this.count, this.ingredients);
+          that.basket.price = priceCalculator.calculateTotalPrice(that.basket.items);
+        }
+      };
 
     basketItems.push(basketItem);
     return basketItem;

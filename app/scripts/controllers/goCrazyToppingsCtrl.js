@@ -32,9 +32,9 @@
       var indexOfIngredient = $scope.selectedBasketItem.ingredients.indexOf(ingredient);
 
       if(isSelectedIngredient && indexOfIngredient === -1) {
-        $scope.selectedBasketItem.ingredients.push(ingredient);
+        $scope.selectedBasketItem.addIngredient(ingredient);
       } else if(!isSelectedIngredient && indexOfIngredient > -1) {
-        $scope.selectedBasketItem.ingredients.splice($scope.selectedBasketItem.ingredients.indexOf(ingredient), 1);
+        $scope.selectedBasketItem.removeIngredient(ingredient);
       }
     }
 
