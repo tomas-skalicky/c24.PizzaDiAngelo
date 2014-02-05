@@ -9,6 +9,12 @@
         <span class="btn btn-link" ng-click="removeItemFromBasket(basketItem)">delete</span>
       </div>
     </div>
+    <ul ng-show="basketItem.isBasePizza">
+      <li ng-repeat="ingredient in basketItem.ingredients" class="list-unstyled">
+        <div class="col-md-6">{{ingredient.name }}</div>
+        <div class="col-md-6">{{ingredient.price * basketItem.count }}$</div>
+      </li>
+    </ul>
   </div>
   </div><strong>Total price: {{ basket.price }}$<strong></div>
 </div>

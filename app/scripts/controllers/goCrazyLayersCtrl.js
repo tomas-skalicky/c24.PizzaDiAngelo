@@ -6,7 +6,6 @@
 
     $scope.addToBasket = function(pizza) {
       var basketItem = BasketService.addBaseItem(pizza, 1);
-      pizza.inBasketCount = basketItem.count;
     };
 
     $scope.extractFromBasket = function(pizza) {
@@ -16,8 +15,15 @@
       if(basketItems.length > 0) {
         basketItem = basketItems[0];
         BasketService.removeItem(basketItem, 1);
-        pizza.inBasketCount = basketItem.count;
       }
+    };
+
+    $scope.getPizzaCountFromBasket = function(pizza) {
+      var basketItem = BasketService.getItemsByPizzaId(pizza.id)[0];
+      if(basketItem) {
+        return basketItem.count;
+      }
+      return 0;
     };
 
     $scope.navigateToppings = function () {
