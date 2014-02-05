@@ -26,6 +26,45 @@ describe('BasketServiceSpec', function () {
     });
   });
 
+  describe('When the user adds a base pizza to the basket', function () {
+    var pizza;
+    beforeEach(function () {
+      pizza = { id: 1, name: 'Thin Crust', price: 1.5 };
+    });
+
+    describe('When the user adds ingredients', function () {
+      var basketItem;
+      beforeEach(function () {
+        basketItem = service.addBaseItem(pizza, 2);
+      });
+
+      it('Should be marked as a base pizza', function () {
+        expect(basketItem.isBasePizza).toBe(true);
+      });
+
+      it('Should have empty ingredients', function () {
+        expect(basketItem.ingredients).toBeDefined();
+        expect(basketItem.ingredients.length).toBe(0);
+      });
+    });
+
+    describe('When the user adds no ingredients', function () {
+      var basketItem;
+      beforeEach(function () {
+        basketItem = service.addBaseItem(pizza, 2, [ {"id":1,"name":"Mushroom","price":1} ]);
+      });
+
+      it('Should be marked as a base pizza', function () {
+        expect(basketItem.isBasePizza).toBe(true);
+      });
+
+      it('Should have one ingredient', function () {
+        expect(basketItem.ingredients).toBeDefined();
+        expect(basketItem.ingredients.length).toBe(1);
+      });
+    });
+  });
+
   describe('When the user wants to remove a item', function () {
     var basketItem;
     beforeEach(function () {

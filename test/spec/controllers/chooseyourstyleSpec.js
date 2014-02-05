@@ -54,7 +54,7 @@ describe('Controller: ChooseYourStyleCtrl', function(){
       });
 
       it('Should use $location to navigate to "gocrazy"', function () {
-        expect(locationServicePathSpy).toHaveBeenCalledWith('gocrazy');
+        expect(locationServicePathSpy).toHaveBeenCalledWith('gocrazy/layers');
       });
     });
   });

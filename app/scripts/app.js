@@ -15,6 +15,14 @@ angular.module('c24.PizzaDiAngeloApp', [
         templateUrl: 'views/alacarte.html',
         controller: 'ALaCarteCtrl'
       })
+      .when('/gocrazy/layers', {
+        templateUrl: 'views/gocrazylayers.html',
+        controller: 'GoCrazyLayersCtrl'
+      })
+      .when('/gocrazy/toppings', {
+        templateUrl: 'views/gocrazytoppings.html',
+        controller: 'GoCrazyToppingsCtrl'
+      })
       .when('/checkout', {
         templateUrl: 'views/checkout.html',
         controller: 'CheckoutCtrl'

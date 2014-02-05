@@ -1,0 +1,18 @@
+<h1>Toppings</h1>
+<div>
+  <section class="col-md-9">
+    <div ng-repeat="ingredient in ingredients">
+      <div class="row">
+        <div class="col-md-1">
+          <input type="checkbox" ng-model="ingredient.isSelected" ng-change="addIngredientToPizza(ingredient)"/>
+        </div>
+        <div class="col-md-6">{{ ingredient.name }}</div>
+        <div class="col-md-2">{{ ingredient.price }}$</div>
+      </div>
+    </div>
+  </section>
+  <section class="col-md-3">
+    <div class="col-md-3" ng-include="'/views/basket.html'" ng-controller="BasketCtrl"></div>
+    <button ng-click="checkout()">Checkout</button>
+  </section>
+</div>

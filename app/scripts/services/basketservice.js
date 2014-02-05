@@ -27,32 +27,45 @@ services.factory('BasketService', ['$http', '$q', '$timeout', 'PriceCalculatorSe
     return pizzasCount;
   };
 
-  var addItem = function (pizza, count, ingredients) {
-    var basketItem;
-    var price = priceCalculator.calculate(pizza, count, ingredients);
+  var addItem = function (pizza, count) {
+    var basketItem = findBasketItemByPizza(this.basket.items, pizza),
+      price = priceCalculator.calculate(pizza, count);
 
-    if (ingredients !== undefined) {
-      // It's a selfmade pizza
-      basketItem = createAndAddBasketItem(this.basket.items, { pizza: pizza, ingredients: ingredients }, count, price);
+    if(basketItem) {
+      updateBasketItem(basketItem, count, price);
     } else {
-      // look, if there is an existing basketItem for the given pizza
-      basketItem = findBasketItemByPizza(this.basket.items, pizza);
-      if (basketItem !== null) {
-        updateBasketItem(basketItem, count, price);
-      } else {
-        basketItem = createAndAddBasketItem(this.basket.items, pizza, count, price);
-      }
+      basketItem = createAndAddBasketItem(this.basket.items, pizza, count, price);
     }
+
     this.basket.price = priceCalculator.calculateTotalPrice(this.basket.items);
     return basketItem;
   };
+
+  var addBaseItem = function (pizza, count, ingredients) {
+    var basketItem = findBasketItemByPizza(this.basket.items, pizza),
+      price = priceCalculator.calculate(pizza, count, ingredients);
+
+    if(basketItem) {
+      updateBasketItem(basketItem, count, price);
+    } else {
+      basketItem = createAndAddBasketItem(this.basket.items, pizza, count, price, ingredients || []);
+    }
+    return basketItem;
+  }
 
   var clear = function () {
     this.basket = { items: [], address: undefined, price: 0 };
   };
 
-  var createAndAddBasketItem = function (basketItems, pizza, count, price) {
-    var basketItem = { pizza: pizza, count: count, price: price };
+  var createAndAddBasketItem = function (basketItems, pizza, count, price, ingredients) {
+    var basketItem = {
+      pizza: pizza,
+      count: count,
+      price: price,
+      ingredients: ingredients,
+      isBasePizza: angular.isArray(ingredients)
+    };
+
     basketItems.push(basketItem);
     return basketItem;
   };
@@ -102,6 +115,7 @@ services.factory('BasketService', ['$http', '$q', '$timeout', 'PriceCalculatorSe
     getTotalPizzaCountByPizzaId: getTotalPizzaCountByPizzaId,
     addAddress: addAddress,
     addItem: addItem,
+    addBaseItem: addBaseItem,
     clear: clear,
     removeItem: removeItem,
     order: order
