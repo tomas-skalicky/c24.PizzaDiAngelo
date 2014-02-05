@@ -2,11 +2,10 @@
   'use strict';
 
   controllers.controller('ALaCarteCtrl', function ($scope, $location, InventoryService, BasketService) {
-    $scope.pizzas = InventoryService.fetchBasePizzas();
+    $scope.pizzas = InventoryService.fetchPizzas();
 
     $scope.addToBasket = function(pizza) {
-      BasketService.addItem(pizza, 1);
-      pizza.inBasketCount = BasketService.getTotalPizzaCountByPizzaId(pizza.id);
+      var basketItem = BasketService.addItem(pizza, 1);
     };
 
     $scope.extractFromBasket = function(pizza) {
@@ -16,8 +15,15 @@
       if(basketItems.length > 0) {
         basketItem = basketItems[0];
         BasketService.removeItem(basketItem, 1);
-        pizza.inBasketCount = basketItem.count;
       }
+    };
+
+    $scope.getPizzaCountFromBasket = function(pizza) {
+      var basketItem = BasketService.getItemsByPizzaId(pizza.id)[0];
+      if(basketItem) {
+        return basketItem.count;
+      }
+      return 0;
     };
 
     $scope.checkout = function () {

@@ -3,10 +3,18 @@
 var services = services || angular.module('c24.PizzaDiAngeloApp.services', []);
 
 services.factory('BasketService', ['$http', '$q', '$timeout', 'PriceCalculatorService', function ($http, $q, $timeout, priceCalculator) {
-  this.basket = { items: [], address: undefined, price: 0 };
+  var getNewAddress = function (name, street, zipcode, city, phone) {
+    return {
+      name: name || '',
+      street: street || '',
+      zipcode: zipcode || '',
+      city: city || '',
+      phone: phone || ''
+    };
+  };
 
   var addAddress = function (name, street, zipcode, city, phone) {
-    this.basket.address = { name: name, street: street, zipcode: zipcode, city: city, phone: phone};
+    this.basket.address = getNewAddress(name, street, zipcode, city, phone);
   };
 
   var getItemsByPizzaId = function (pizzaId) {
@@ -108,6 +116,8 @@ services.factory('BasketService', ['$http', '$q', '$timeout', 'PriceCalculatorSe
     basketItem.count += count;
     basketItem.price += price;
   };
+
+  this.basket = { items: [], address: getNewAddress(), price: 0 };
 
   return {
     basket: this.basket,

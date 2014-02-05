@@ -18,10 +18,10 @@ describe('Controller: ALaCarteCtrl', function(){
     $locationService = $location;
     $scope = $rootScope.$new();
 
-    mockInventoryService = sinon.stub({ fetchBasePizzas: function () {} });
+    mockInventoryService = sinon.stub({ fetchPizzas: function () {} });
     basketService = $injector.get('BasketService');
 
-    mockInventoryService.fetchBasePizzas.returns(pizzasMockResponse);
+    mockInventoryService.fetchPizzas.returns(pizzasMockResponse);
     controller = $controllerService('ALaCarteCtrl', {
       $scope: $scope,
       $location: $locationService,
@@ -61,7 +61,7 @@ describe('Controller: ALaCarteCtrl', function(){
 
     it('Pizzas count in the basket shoud be 5', function(){
       var pizza = $scope.pizzas[0];
-      expect(pizza.inBasketCount).toBe(5);
+      expect($scope.getPizzaCountFromBasket(pizza)).toBe(5);
     });
 
     it('BasketService.addItem should be called', function(){
@@ -78,7 +78,7 @@ describe('Controller: ALaCarteCtrl', function(){
       });
 
       it('Pizzas should decrease pizza basket item count', function(){
-        expect(pizza.inBasketCount).toBe(4);
+        expect($scope.getPizzaCountFromBasket(pizza)).toBe(4);
       });
 
       it('BasketService.removeItem should be called', function(){

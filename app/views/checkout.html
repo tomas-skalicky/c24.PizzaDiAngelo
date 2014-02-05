@@ -1,1 +1,29 @@
-<h1>Checkout</h1>
+<div>
+  <h1>Order it</h1>
+  <div class="col-md-6">
+    <h4>Shipment details</h4>
+    <div class="form-horizontal">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input ng-model="address.name" type="text" class="form-control" id="name" placeholder="Name">
+      </div>
+      <div class="form-group">
+        <label for="street">Street</label>
+        <input ng-model="address.street" type="text" class="form-control" id="street" placeholder="Street">
+      </div>
+      <div class="form-group">
+        <label for="zip">Zip code</label>
+        <input ng-model="address.zip" type="tel" class="form-control" id="zip" placeholder="Zip code">
+      </div>
+      <div class="form-group">
+        <label for="city">City (we also deliver in other cities)</label>
+        <input ng-model="address.city" type="text" class="form-control" id="city" placeholder="City">
+      </div>
+    </div>
+    <button class="btn btn-primary" ng-click="finishOrder()">Yes I am hungry!</button>
+  </div>
+  <div class="col-md-6">
+     <div ng-include="'/views/basket.html'" ng-controller="BasketCtrl"></div>
+  </div>
+</div>
+

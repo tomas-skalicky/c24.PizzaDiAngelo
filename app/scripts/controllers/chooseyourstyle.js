@@ -12,7 +12,6 @@
         $location.path('gocrazy/layers');
       }
     };
-
   });
 
 })(controllers);
