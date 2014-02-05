@@ -3,7 +3,8 @@
 var services = services || angular.module('c24.PizzaDiAngeloApp.services', []);
 
 services.factory('BasketService', ['$http', '$q', '$timeout', 'PriceCalculatorService', function ($http, $q, $timeout, priceCalculator) {
-  var getNewAddress = function (name, street, zipcode, city, phone) {
+  var baseItems = [],
+    getNewAddress = function (name, street, zipcode, city, phone) {
     return {
       name: name || '',
       street: street || '',
@@ -59,11 +60,19 @@ services.factory('BasketService', ['$http', '$q', '$timeout', 'PriceCalculatorSe
       basketItem = createAndAddBasketItem.call(this, this.basket.items, pizza, count, price, ingredients || []);
     }
     this.basket.price = priceCalculator.calculateTotalPrice(this.basket.items);
+
+    baseItems.push(basketItem);
+
     return basketItem;
   }
 
   var clear = function () {
-    this.basket = { items: [], address: undefined, price: 0 };
+    baseItems = [];
+    this.basket = {
+      items: [],
+      address: getNewAddress(),
+      price: 0
+    };
   };
 
   var createAndAddBasketItem = function (basketItems, pizza, count, price, ingredients) {
@@ -116,6 +125,7 @@ services.factory('BasketService', ['$http', '$q', '$timeout', 'PriceCalculatorSe
         basketItem.count -= count;
         basketItem.price = basketItem.pizza.price * basketItem.count;
       } else {
+        baseItems.splice(baseItems.indexOf(basketItem));
         this.basket.items.splice(index, 1);
         basketItem.count = 0;
         basketItem.price = 0;
@@ -129,7 +139,11 @@ services.factory('BasketService', ['$http', '$q', '$timeout', 'PriceCalculatorSe
     basketItem.price += price;
   };
 
-  this.basket = { items: [], address: getNewAddress(), price: 0 };
+  var getBaseBasketItems = function () {
+    return baseItems;
+  };
+
+  clear.call(this);
 
   return {
     basket: this.basket,
@@ -140,6 +154,7 @@ services.factory('BasketService', ['$http', '$q', '$timeout', 'PriceCalculatorSe
     addBaseItem: addBaseItem,
     clear: clear,
     removeItem: removeItem,
+    getBaseBasketItems: getBaseBasketItems,
     order: order
   };
 }]);

@@ -1,7 +1,7 @@
 <h1>Toppings</h1>
 <div>
   <section class="col-md-9">
-    <select ng-model="selectedBasketItem" ng-change="changeSelectBasketItem()" ng-options="basketItem.pizza.name + ', count: ' + basketItem.count for basketItem in basketItems">
+    <select ng-model="selectedBasketItem" ng-change="changeSelectBasketItem()" ng-options="basketItem.pizza.name + ', count: ' + basketItem.count for basketItem in basketBaseItems">
     </select>
     <div ng-repeat="ingredient in ingredients">
       <div class="row">

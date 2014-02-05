@@ -72,6 +72,17 @@ describe('Controller: ALaCarteCtrl', function(){
       expect(addItemSpy).toHaveBeenCalled();
     });
 
+    describe('When a user wants to know how many pizzas of that type are in the basket', function () {
+      var pizzaCount;
+      beforeEach(function () {
+        pizzaCount = $scope.getPizzaCountFromBasket(firstPizza);
+      });
+
+      it('Should find 5 pizzas', function () {
+        expect(pizzaCount).toBe(5);
+      });
+    });
+
     describe('When removing pizzas', function() {
       var pizza,
         removeItemSpy;

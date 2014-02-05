@@ -114,4 +114,19 @@ describe('Controller: GoCrazyLayersCtrl', function(){
       });
     });
   });
+
+  describe('When a user changes the base selected item', function () {
+    var secondItem;
+    beforeEach(function () {
+      secondItem = basketService.basket.items[1];
+      secondItem.addIngredient(ingredientsMockResponse[0]);
+      secondItem.addIngredient(ingredientsMockResponse[1]);
+      secondItem.addIngredient(ingredientsMockResponse[2]);
+      //$scope.selectIngredientsForBasketItem(secondItem);
+    });
+
+    it('Should set the selected ingredients according to what ingredients are in the basket item', function () {
+      //Test that the correct basketItem.ingredients are selected
+    });
+  });
 });

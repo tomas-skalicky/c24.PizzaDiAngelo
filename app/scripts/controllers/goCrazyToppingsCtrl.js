@@ -9,9 +9,10 @@
 
     $scope.ingredients = InventoryService.fetchIngredients();
 
-    $scope.basketItems = BasketService.basket.items;
-    $scope.selectedBasketItem = $scope.basketItems[0];
+    $scope.basketBaseItems = BasketService.getBaseBasketItems();
+    $scope.selectedBasketItem = $scope.basketBaseItems[0];
 
+    //TODO: method not tested, because of the use of then in the promise
     $scope.selectIngredientsForBasketItem = function (basketItem) {
       $scope.ingredients.then(function (ingredients) {
         ingredients.forEach(function (element, index) {
