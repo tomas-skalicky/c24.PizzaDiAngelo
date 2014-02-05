@@ -4,7 +4,8 @@ describe('Controller: ALaCarteCtrl', function(){
   var $controllerService, $scope, $locationService,
     controller,
     pizzasMockResponse,
-	  mockInventoryService,
+	  inventoryService,
+    spyInventoryServiceFetchPizzas,
     basketService;
 
   beforeEach(function () {
@@ -12,26 +13,29 @@ describe('Controller: ALaCarteCtrl', function(){
     module('c24.PizzaDiAngeloApp.controllers');
   });
 
-  beforeEach(inject(function($injector, $controller, $rootScope, $location){
+  beforeEach(inject(function($injector, $controller, $rootScope, $location, InventoryService, BasketService){
+    inventoryService = InventoryService;
+    basketService = BasketService;
     pizzasMockResponse = [ { id: 1, name: 'Thin Crust' } ];
   	$controllerService = $controller;
     $locationService = $location;
     $scope = $rootScope.$new();
+    spyInventoryServiceFetchPizzas = spyOn(inventoryService, 'fetchPizzas').andReturn(pizzasMockResponse);
 
-    mockInventoryService = sinon.stub({ fetchPizzas: function () {} });
-    basketService = $injector.get('BasketService');
-
-    mockInventoryService.fetchPizzas.returns(pizzasMockResponse);
     controller = $controllerService('ALaCarteCtrl', {
       $scope: $scope,
       $location: $locationService,
-      InventoryService: mockInventoryService,
+      InventoryService: inventoryService,
       BasketService: basketService
     });
   }));
 
   it('Pizzas are defined', function(){
   	expect($scope.pizzas).toBe(pizzasMockResponse);
+  });
+
+  it('Should call the inventoryService to fetch pizzas', function(){
+    expect(spyInventoryServiceFetchPizzas).toHaveBeenCalled();
   });
 
   describe('When checkout is done', function () {

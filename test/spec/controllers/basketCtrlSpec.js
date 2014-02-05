@@ -16,10 +16,10 @@ describe('Controller: BasketCtrl', function(){
     module('c24.PizzaDiAngeloApp.controllers');
   });
 
-  beforeEach(inject(function($injector, $controller, $rootScope){
+  beforeEach(inject(function($injector, $controller, $rootScope, BasketService){
   	$controllerService = $controller;
     $scope = $rootScope.$new();
-    basketService = $injector.get('BasketService');
+    basketService = BasketService;
 
     controller = $controllerService('BasketCtrl', {
       $scope: $scope,

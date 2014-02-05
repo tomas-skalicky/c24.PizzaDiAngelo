@@ -25,13 +25,14 @@ describe('Controller: GoCrazyLayersCtrl', function(){
   });
 
   beforeEach(inject(function($injector, $controller, $rootScope, $location, InventoryService, BasketService){
+    basketService = BasketService;
     ingredientsMockResponse = [{"id":1,"name":"Mushroom","price":1},{"id":2,"name":"Pepperoni","price":1},{"id":3,"name":"Chips","price":1},{"id":4,"name":"Tomatoes","price":1},{"id":5,"name":"Pepperoni","price":1},{"id":6,"name":"Ananas","price":1},{"id":7,"name":"Chilli","price":0.5},{"id":8,"name":"Cheese","price":0.5}];
-  	$controllerService = $controller;
+    $controllerService = $controller;
     $locationService = $location;
     $scope = $rootScope.$new();
+
     spyInventoryFetchIngredients = spyOn(InventoryService, 'fetchIngredients').andReturn(ingredientsMockResponse);
 
-    basketService = BasketService;
     basketService.addBaseItem(basePizza1, 1);
     basketService.addBaseItem(basePizza2, 2);
 

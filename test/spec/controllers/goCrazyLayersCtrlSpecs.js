@@ -6,7 +6,8 @@ describe('Controller: GoCrazyLayersCtrl', function(){
     $locationService,
     controller,
     basePizzassMockResponse,
-    mockInventoryService,
+    inventoryService,
+    spyInventoryServiceFetchPizzas,
     basketService;
 
   beforeEach(function () {
@@ -14,20 +15,20 @@ describe('Controller: GoCrazyLayersCtrl', function(){
     module('c24.PizzaDiAngeloApp.controllers');
   });
 
-  beforeEach(inject(function($injector, $controller, $rootScope, $location){
+  beforeEach(inject(function($injector, $controller, $rootScope, $location, InventoryService, BasketService){
+    inventoryService = InventoryService;
+    basketService = BasketService;
     basePizzassMockResponse = [ { id: 1, name: 'Thin Crust' } ];
-  	$controllerService = $controller;
+    $controllerService = $controller;
     $locationService = $location;
     $scope = $rootScope.$new();
 
-    mockInventoryService = sinon.stub({ fetchBasePizzas: function () {} });
-    basketService = $injector.get('BasketService');
+    spyInventoryServiceFetchPizzas = spyOn(inventoryService, 'fetchBasePizzas').andReturn(basePizzassMockResponse);
 
-    mockInventoryService.fetchBasePizzas.returns(basePizzassMockResponse);
     controller = $controllerService('GoCrazyLayersCtrl', {
       $scope: $scope,
       $location: $locationService,
-      InventoryService: mockInventoryService,
+      InventoryService: inventoryService,
       BasketService: basketService
     });
   }));
