@@ -7,16 +7,33 @@
       return;
     }
 
-    $scope.selectedBasketItem = BasketService.basket.items[0];
-
     $scope.ingredients = InventoryService.fetchIngredients();
 
-    $scope.addIngredientToPizza = function(ingredient) {
+    $scope.basketItems = BasketService.basket.items;
+    $scope.selectedBasketItem = $scope.basketItems[0];
+
+    $scope.selectIngredientsForBasketItem = function (basketItem) {
+      $scope.ingredients.then(function (ingredients) {
+        ingredients.forEach(function (element, index) {
+          if (basketItem.ingredients.indexOf(element) > -1) {
+            element.isSelected = true;
+          } else {
+            element.isSelected = false;
+          }
+        });
+      });
+    };
+
+    $scope.changeSelectBasketItem = function () {
+      $scope.selectIngredientsForBasketItem($scope.selectedBasketItem);
+    };
+
+    $scope.addOrRemoveIngredientsOfPizza = function(ingredient, isSelectedIngredient) {
       var indexOfIngredient = $scope.selectedBasketItem.ingredients.indexOf(ingredient);
 
-      if(ingredient.isSelected && indexOfIngredient === -1) {
+      if(isSelectedIngredient && indexOfIngredient === -1) {
         $scope.selectedBasketItem.ingredients.push(ingredient);
-      } else if(!ingredient.isSelected && indexOfIngredient > -1) {
+      } else if(!isSelectedIngredient && indexOfIngredient > -1) {
         $scope.selectedBasketItem.ingredients.splice($scope.selectedBasketItem.ingredients.indexOf(ingredient), 1);
       }
     }

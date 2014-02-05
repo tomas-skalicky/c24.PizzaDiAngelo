@@ -4,7 +4,7 @@ describe('Controller: GoCrazyLayersCtrl', function(){
   var $controllerService,
     $scope,
     $locationService,
-    ingredientsMockResponse = [{"id":1,"name":"Mushroom","price":1},{"id":2,"name":"Pepperoni","price":1},{"id":3,"name":"Chips","price":1},{"id":4,"name":"Tomatoes","price":1},{"id":5,"name":"Pepperoni","price":1},{"id":6,"name":"Ananas","price":1},{"id":7,"name":"Chilli","price":0.5},{"id":8,"name":"Cheese","price":0.5}],
+    ingredientsMockResponse,
     basePizza1 = {
       id: 1,
       name: 'Thin Crust',
@@ -25,6 +25,7 @@ describe('Controller: GoCrazyLayersCtrl', function(){
   });
 
   beforeEach(inject(function($injector, $controller, $rootScope, $location, InventoryService, BasketService){
+    ingredientsMockResponse = [{"id":1,"name":"Mushroom","price":1},{"id":2,"name":"Pepperoni","price":1},{"id":3,"name":"Chips","price":1},{"id":4,"name":"Tomatoes","price":1},{"id":5,"name":"Pepperoni","price":1},{"id":6,"name":"Ananas","price":1},{"id":7,"name":"Chilli","price":0.5},{"id":8,"name":"Cheese","price":0.5}];
   	$controllerService = $controller;
     $locationService = $location;
     $scope = $rootScope.$new();
@@ -59,6 +60,57 @@ describe('Controller: GoCrazyLayersCtrl', function(){
 
     it('Should use the location service to navigate to checkout', function () {
       expect(locationPathSpy).toHaveBeenCalledWith('/checkout');
+    });
+  });
+
+  describe('When the user adds an ingredient to the selected basket item', function () {
+    var selectedIngredient;
+    beforeEach(function () {
+      selectedIngredient = $scope.ingredients[0];
+    });
+    describe('When the ingredient doesnt exist', function () {
+      beforeEach(function () {
+        $scope.addOrRemoveIngredientsOfPizza(selectedIngredient, true);
+      });
+      it('Should add selectedIngredient to the selectedBasketItem', function () {
+        expect($scope.selectedBasketItem.ingredients.indexOf(selectedIngredient)).not.toBe(-1);
+      });
+
+    });
+    describe('When the ingredient exists', function () {
+      beforeEach(function () {
+        $scope.addOrRemoveIngredientsOfPizza(selectedIngredient, true);
+        $scope.addOrRemoveIngredientsOfPizza(selectedIngredient, true);
+      });
+      it('Should add selectedIngredient to the selectedBasketItem only once', function () {
+        expect($scope.selectedBasketItem.ingredients.length).toBe(1);
+      });
+
+    });
+
+    describe('When the user removes an ingredient from the selected basket item', function () {
+      var selectedIngredient;
+      beforeEach(function () {
+        selectedIngredient = $scope.ingredients[0];
+      });
+      describe('When the ingredient doesnt exist', function () {
+        beforeEach(function () {
+          $scope.addOrRemoveIngredientsOfPizza(selectedIngredient, false);
+        });
+        it('Should remove selectedIngredient from the selectedBasketItem', function () {
+          expect($scope.selectedBasketItem.ingredients.indexOf(selectedIngredient)).toBe(-1);
+        });
+
+      });
+      describe('When the ingredient exists', function () {
+        beforeEach(function () {
+          $scope.addOrRemoveIngredientsOfPizza(selectedIngredient, false);
+        });
+        it('Should remove selectedIngredient from the selectedBasketItem', function () {
+          expect($scope.selectedBasketItem.ingredients.length).toBe(0);
+        });
+
+      });
     });
   });
 });
