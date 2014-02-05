@@ -8,10 +8,13 @@
         <div class="col-md-3">
           <span ng-click="extractFromBasket(pizza)" class="btn btn-link">substract</span>|<span ng-click="addToBasket(pizza)" class="btn btn-link">add</span>
         </div>
-        <div class="col-md-1">{{ pizza.inBasketCount || 0 }}</div>
+        <div class="col-md-1">{{ getPizzaCountFromBasket(pizza) }}</div>
       </div>
     </div>
   </section>
-  <section class="col-md-3" ng-include="'/views/basket.html'" ng-controller="BasketCtrl"></section>
-  <button ng-click="checkout()" class="btn btn-default">checkout</button>
+  <section class="col-md-3">
+      <div ng-include="'/views/basket.html'" ng-controller="BasketCtrl" onload="isEditable = true;"></div>
+      <button ng-click="checkout()" class="btn btn-default">checkout</button>
+  </section>
+
 </div>

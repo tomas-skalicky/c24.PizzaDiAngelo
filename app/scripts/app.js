@@ -1,7 +1,9 @@
-'use strict';
 var controllers = angular.module('c24.PizzaDiAngeloApp.controllers', []);
 
-angular.module('c24.PizzaDiAngeloApp', [
+(function () {
+  'use strict';
+
+  angular.module('c24.PizzaDiAngeloApp', [
     'c24.PizzaDiAngeloApp.controllers',
     'c24.PizzaDiAngeloApp.services',
   ])
@@ -19,9 +21,19 @@ angular.module('c24.PizzaDiAngeloApp', [
         templateUrl: 'views/checkout.html',
         controller: 'CheckoutCtrl'
       })
+      .when('/thankyou', {
+        templateUrl: 'views/thankYou.html',
+        controller: 'ThankYouCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });
-  });
+  })
+  .config(['$httpProvider', function($httpProvider) {
+    delete $httpProvider.defaults.headers.common['X-Requested-With'];
+  }]);
+})();
+
+
 
 
