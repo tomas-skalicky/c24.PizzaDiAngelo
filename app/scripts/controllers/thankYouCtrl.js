@@ -1,7 +1,6 @@
-(function(controllers) {
+define(['angular'], function () {
   'use strict';
 
-  controllers.controller('ThankYouCtrl', function ($scope) {
+  angular.module('c24.PizzaDiAngeloApp').lazy.controller('ThankYouCtrl', function ($scope) {
   });
-
-})(controllers);
+});

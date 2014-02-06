@@ -1,39 +1,97 @@
-var controllers = angular.module('c24.PizzaDiAngeloApp.controllers', []);
-
-(function () {
+define(['angular', 'angular-route', 'angular-resource'], function (angular) {
   'use strict';
 
-  angular.module('c24.PizzaDiAngeloApp', [
-    'c24.PizzaDiAngeloApp.controllers',
-    'c24.PizzaDiAngeloApp.services',
-  ])
-  .config(function ($routeProvider) {
+  var controllers = angular.module('c24.PizzaDiAngeloApp.controllers', []),
+    services = angular.module('c24.PizzaDiAngeloApp.services', []);
+
+  var app = angular.module('c24.PizzaDiAngeloApp', [
+      'ngRoute',
+      'c24.PizzaDiAngeloApp.controllers',
+      'c24.PizzaDiAngeloApp.services'
+    ]);
+
+  app.config(function ($routeProvider, $controllerProvider, $compileProvider, $filterProvider, $provide) {
+    app.lazy = {
+      controller: $controllerProvider.register,
+      directive: $compileProvider.directive,
+      filter: $filterProvider.register,
+      factory: $provide.factory,
+      service: $provide.service
+    };
+
     $routeProvider
       .when('/', {
         templateUrl: 'views/chooseyourstyle.html',
-        controller: 'ChooseYourStyleCtrl'
+        controller: 'ChooseYourStyleCtrl',
+        resolve: {
+          load: ['$q', '$rootScope', function ($q, $rootScope) {
+            var deferred = $q.defer();
+
+            require(['./controllers/chooseyourstyle'], function () {
+              $rootScope.$apply(function () {
+                deferred.resolve();
+              });
+            });
+
+            return deferred.promise;
+          }]
+        }
       })
       .when('/alacarte', {
         templateUrl: 'views/alacarte.html',
-        controller: 'ALaCarteCtrl'
+        controller: 'ALaCarteCtrl',
+        resolve: {
+          load: ['$q', '$rootScope', function ($q, $rootScope) {
+            var deferred = $q.defer();
+
+            require(['./controllers/alacarteCtrl', './controllers/basketCtrl'], function () {
+              $rootScope.$apply(function () {
+                deferred.resolve();
+              });
+            });
+
+            return deferred.promise;
+          }]
+        }
       })
       .when('/checkout', {
         templateUrl: 'views/checkout.html',
-        controller: 'CheckoutCtrl'
+        controller: 'CheckoutCtrl',
+        resolve: {
+          load: ['$q', '$rootScope', function ($q, $rootScope) {
+            var deferred = $q.defer();
+
+            require(['./controllers/checkoutCtrl', './controllers/basketCtrl'], function () {
+              $rootScope.$apply(function () {
+                deferred.resolve();
+              });
+            });
+
+            return deferred.promise;
+          }]
+        }
       })
       .when('/thankyou', {
         templateUrl: 'views/thankYou.html',
-        controller: 'ThankYouCtrl'
+        controller: 'ThankYouCtrl',
+        resolve: {
+          load: ['$q', '$rootScope', function ($q, $rootScope) {
+            var deferred = $q.defer();
+
+            require(['./controllers/thankYouCtrl'], function () {
+              $rootScope.$apply(function () {
+                deferred.resolve();
+              });
+            });
+
+            return deferred.promise;
+          }]
+        }
       })
       .otherwise({
         redirectTo: '/'
       });
-  })
-  .config(['$httpProvider', function($httpProvider) {
-    delete $httpProvider.defaults.headers.common['X-Requested-With'];
-  }]);
-})();
+  });
 
-
-
-
+  return app;
+});

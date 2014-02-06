@@ -21,6 +21,8 @@
   "globals": {
     "angular": false,
     "controllers": true,
-    "services": true
+    "services": true,
+    "define": true,
+    "require": true
   }
 }

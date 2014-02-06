@@ -1,7 +1,7 @@
-(function(controllers) {
+define(['angular'], function (angular) {
   'use strict';
 
-  controllers.controller('ChooseYourStyleCtrl', function ($scope, $location) {
+  angular.module('c24.PizzaDiAngeloApp').lazy.controller('ChooseYourStyleCtrl', function ($scope, $location) {
     $scope.styles = ['A la Carte', 'Go Crazy'];
     $scope.selectedstyle = '';
 
@@ -13,5 +13,4 @@
       }
     };
   });
-
-})(controllers);
+});

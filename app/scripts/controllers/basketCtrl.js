@@ -1,7 +1,7 @@
-(function(controllers) {
+define(['angular', './../services/basketservice'], function (angular) {
   'use strict';
 
-  controllers.controller('BasketCtrl', function ($scope, BasketService) {
+  angular.module('c24.PizzaDiAngeloApp').lazy.controller('BasketCtrl', function ($scope, BasketService) {
     $scope.basket = BasketService.basket;
 
     $scope.isEditable = false;
@@ -11,5 +11,4 @@
       BasketService.removeItem(basketItem);
     };
   });
-
-})(controllers);
+});

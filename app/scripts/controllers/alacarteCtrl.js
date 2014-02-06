@@ -1,8 +1,11 @@
-(function(controllers) {
+define(['angular', './../services/inventoryservice', './../services/basketservice'], function (angular) {
   'use strict';
 
-  controllers.controller('ALaCarteCtrl', function ($scope, $location, InventoryService, BasketService) {
-    $scope.pizzas = InventoryService.fetchPizzas();
+  angular.module('c24.PizzaDiAngeloApp').lazy.controller('ALaCarteCtrl', function ($scope, $location, InventoryService, BasketService) {
+
+    InventoryService.fetchPizzas().then(function (pizzas) {
+      $scope.pizzas = pizzas;
+    });
 
     $scope.addToBasket = function(pizza) {
       var basketItem = BasketService.addItem(pizza, 1);
@@ -30,5 +33,4 @@
       $location.path('checkout');
     };
   });
-
-})(controllers);
+});
