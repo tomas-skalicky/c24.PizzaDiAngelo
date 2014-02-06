@@ -13,7 +13,7 @@
     </div>
   </section>
   <section class="col-md-3">
-    <div ng-include="'/views/basket.html'" ng-controller="BasketCtrl" onload="isEditable = true;"></div>
+    <div ng-include="'/views/basket.html'" ng-controller="BasketCtrl" ng-init="isEditable = true;"></div>
     <button ng-click="navigateToppings()">Toppings</button>
   </section>
 </div>
