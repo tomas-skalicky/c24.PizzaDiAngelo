@@ -63,7 +63,7 @@ services.factory('BasketService', ['$http', '$q', '$timeout', 'PriceCalculatorSe
     this.basket.price = priceCalculator.calculateTotalPrice(this.basket.items);
 
     return basketItem;
-  }
+  };
 
   var clear = function () {
     baseItems = [];

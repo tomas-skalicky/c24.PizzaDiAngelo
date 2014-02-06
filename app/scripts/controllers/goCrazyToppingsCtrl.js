@@ -38,7 +38,7 @@
       } else if(!isSelectedIngredient && indexOfIngredient > -1) {
         $scope.selectedBasketItem.removeIngredient(ingredient);
       }
-    }
+    };
 
     $scope.checkout = function () {
       $location.path('/checkout');
