@@ -4,7 +4,7 @@ describe('InventoryService Spec', function () {
   var $http;
   var httpMock;
   var inventoryService;
-  var domainName = 'http://localhost:3000';
+  var domainName = 'http://pizzaexpress-check24.rhcloud.com';
 
   beforeEach(function () {
     module('c24.PizzaDiAngeloApp');

@@ -1,7 +1,7 @@
 'use strict';
 
 var services = services || angular.module('c24.PizzaDiAngeloApp.services', []),
-    domainName = 'http://localhost:3000';
+    domainName = 'http://pizzaexpress-check24.rhcloud.com';
 
 services.factory('InventoryService', ['$http', '$q', '$cacheFactory', function ($http, $q, $cacheFactory) {
   var that = this;
