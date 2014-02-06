@@ -24,14 +24,17 @@ describe('Controller: GoCrazyLayersCtrl', function(){
     module('c24.PizzaDiAngeloApp.controllers');
   });
 
-  beforeEach(inject(function($injector, $controller, $rootScope, $location, InventoryService, BasketService){
+  beforeEach(inject(function($injector, $q, $controller, $rootScope, $location, InventoryService, BasketService){
+    var deferred = $q.defer();
+
     basketService = BasketService;
     ingredientsMockResponse = [{"id":1,"name":"Mushroom","price":1},{"id":2,"name":"Pepperoni","price":1},{"id":3,"name":"Chips","price":1},{"id":4,"name":"Tomatoes","price":1},{"id":5,"name":"Pepperoni","price":1},{"id":6,"name":"Ananas","price":1},{"id":7,"name":"Chilli","price":0.5},{"id":8,"name":"Cheese","price":0.5}];
     $controllerService = $controller;
     $locationService = $location;
     $scope = $rootScope.$new();
 
-    spyInventoryFetchIngredients = spyOn(InventoryService, 'fetchIngredients').andReturn(ingredientsMockResponse);
+    deferred.resolve(ingredientsMockResponse);
+    spyInventoryFetchIngredients = spyOn(InventoryService, 'fetchIngredients').andReturn(deferred.promise);
 
     basketService.addBaseItem(basePizza1, 1);
     basketService.addBaseItem(basePizza2, 2);
@@ -42,6 +45,8 @@ describe('Controller: GoCrazyLayersCtrl', function(){
       InventoryService: InventoryService,
       BasketService: basketService
     });
+
+    $rootScope.$apply();
   }));
 
   it('Should call the inventory service to fetch the ingredients', function(){
@@ -122,11 +127,17 @@ describe('Controller: GoCrazyLayersCtrl', function(){
       secondItem.addIngredient(ingredientsMockResponse[0]);
       secondItem.addIngredient(ingredientsMockResponse[1]);
       secondItem.addIngredient(ingredientsMockResponse[2]);
-      //$scope.selectIngredientsForBasketItem(secondItem);
+      $scope.selectIngredientsForBasketItem(secondItem);
+    });
+
+    it('Should find in the selected item 3 ingredients', function () {
+      expect(secondItem.ingredients.length).toBe(3);
     });
 
     it('Should set the selected ingredients according to what ingredients are in the basket item', function () {
-      //Test that the correct basketItem.ingredients are selected
+      expect(secondItem.ingredients[0]).toBe(ingredientsMockResponse[0]);
+      expect(secondItem.ingredients[1]).toBe(ingredientsMockResponse[1]);
+      expect(secondItem.ingredients[2]).toBe(ingredientsMockResponse[2]);
     });
   });
 });

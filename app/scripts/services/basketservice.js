@@ -58,10 +58,9 @@ services.factory('BasketService', ['$http', '$q', '$timeout', 'PriceCalculatorSe
       updateBasketItem(basketItem, count, price);
     } else {
       basketItem = createAndAddBasketItem.call(this, this.basket.items, pizza, count, price, ingredients || []);
+      baseItems.push(basketItem);
     }
     this.basket.price = priceCalculator.calculateTotalPrice(this.basket.items);
-
-    baseItems.push(basketItem);
 
     return basketItem;
   }

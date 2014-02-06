@@ -7,21 +7,22 @@
       return;
     }
 
-    $scope.ingredients = InventoryService.fetchIngredients();
-
     $scope.basketBaseItems = BasketService.getBaseBasketItems();
     $scope.selectedBasketItem = $scope.basketBaseItems[0];
 
-    //TODO: method not tested, because of the use of then in the promise
+    InventoryService.fetchIngredients().then(function (ingredients) {
+      $scope.ingredients = ingredients;
+      /* While navigating, make sure the ingredients are selected correctly on load*/
+      $scope.selectIngredientsForBasketItem($scope.selectedBasketItem);
+    });
+
     $scope.selectIngredientsForBasketItem = function (basketItem) {
-      $scope.ingredients.then(function (ingredients) {
-        ingredients.forEach(function (element, index) {
-          if (basketItem.ingredients.indexOf(element) > -1) {
-            element.isSelected = true;
-          } else {
-            element.isSelected = false;
-          }
-        });
+      $scope.ingredients.forEach(function (element, index) {
+        if (basketItem.ingredients.indexOf(element) > -1) {
+          element.isSelected = true;
+        } else {
+          element.isSelected = false;
+        }
       });
     };
 
