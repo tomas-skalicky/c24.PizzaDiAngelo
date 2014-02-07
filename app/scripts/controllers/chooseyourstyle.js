@@ -9,7 +9,7 @@
       if($scope.selectedstyle === $scope.styles[0]) {
         $location.path('alacarte');
       } else {
-        $location.path('gocrazy');
+        $location.path('gocrazy/layers');
       }
     };
   });

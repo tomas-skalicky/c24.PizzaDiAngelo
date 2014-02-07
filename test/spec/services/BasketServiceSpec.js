@@ -26,6 +26,58 @@ describe('BasketServiceSpec', function () {
     });
   });
 
+  describe('When the user adds a base pizza to the basket', function () {
+    var pizza, basketItem;
+    beforeEach(function () {
+      pizza = { id: 1, name: 'Thin Crust', price: 1.5 };
+      basketItem = service.addBaseItem(pizza, 2);
+    });
+
+    it('Should be marked as a base pizza', function () {
+      expect(basketItem.isBasePizza).toBe(true);
+    });
+
+    it('Should have empty ingredients', function () {
+      expect(basketItem.ingredients).toBeDefined();
+      expect(basketItem.ingredients.length).toBe(0);
+    });
+
+    describe('When the user adds ingredients', function () {
+      var ingredient = {"id":1,"name":"Mushroom","price":1},
+        initialPrice;
+      beforeEach(function () {
+        initialPrice = basketItem.price;
+        basketItem.addIngredient(ingredient);
+      });
+
+      it('Should have that ingredient', function () {
+        expect(basketItem.ingredients.indexOf(ingredient)).not.toBe(-1);
+      });
+
+      it('Should recalculate the basketItemPrice', function () {
+        var expectedPrice = initialPrice + (ingredient.price * basketItem.count);
+        expect(basketItem.price).toBe(expectedPrice);
+      });
+
+      describe('When the user removes ingredients', function () {
+        var priceBeforeRemove;
+        beforeEach(function () {
+          priceBeforeRemove = basketItem.price;
+          basketItem.removeIngredient(ingredient);
+        });
+
+        it('Should not have that ingredient', function () {
+          expect(basketItem.ingredients.indexOf(ingredient)).toBe(-1);
+        });
+
+        it('Should recalculate the basketItemPrice', function () {
+          var expectedPrice = priceBeforeRemove - (ingredient.price * basketItem.count);
+          expect(basketItem.price).toBe(expectedPrice);
+        });
+      });
+    });
+  });
+
   describe('When the user wants to remove a item', function () {
     var basketItem;
     beforeEach(function () {

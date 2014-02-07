@@ -1,7 +1,7 @@
+<h1>Layers</h1>
 <div>
-  <h1>Pizza perfotto a la carte</h1>
   <section class="col-md-9">
-    <div ng-repeat="pizza in pizzas">
+    <div ng-repeat="pizza in basePizzas">
       <div class="row">
         <div class="col-md-4">{{ pizza.name }}</div>
         <div class="col-md-1">{{ pizza.price }}$</div>
@@ -13,8 +13,9 @@
     </div>
   </section>
   <section class="col-md-3">
-      <div ng-include="'/views/basket.html'" ng-controller="BasketCtrl" ng-init="isEditable = true;"></div>
-      <button ng-click="checkout()" class="btn btn-default">checkout</button>
+    <div ng-include="'/views/basket.html'" ng-controller="BasketCtrl" ng-init="isEditable = true;"></div>
+    <button ng-click="navigateToppings()">Toppings</button>
   </section>
-
 </div>
+
+

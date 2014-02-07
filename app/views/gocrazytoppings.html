@@ -1,0 +1,20 @@
+<h1>Toppings</h1>
+<div>
+  <section class="col-md-9">
+    <select ng-model="selectedBasketItem" ng-change="changeSelectBasketItem()" ng-options="basketItem.pizza.name + ', count: ' + basketItem.count for basketItem in basketBaseItems">
+    </select>
+    <div ng-repeat="ingredient in ingredients">
+      <div class="row">
+        <div class="col-md-1">
+          <input type="checkbox" ng-model="ingredient.isSelected" ng-change="addOrRemoveIngredientsOfPizza(ingredient, ingredient.isSelected)"/>
+        </div>
+        <div class="col-md-6">{{ ingredient.name }}</div>
+        <div class="col-md-2">{{ ingredient.price }}$</div>
+      </div>
+    </div>
+  </section>
+  <section class="col-md-3">
+    <div ng-include="'/views/basket.html'" ng-controller="BasketCtrl" ng-init="isEditable = true;"></div>
+    <button ng-click="checkout()">Checkout</button>
+  </section>
+</div>

@@ -13,8 +13,21 @@
     <!-- endbuild -->
 </head>
 <body ng-app="c24.PizzaDiAngeloApp">
-    <!-- Add your site or application content here -->
-    <div class="container" ng-view=""></div>
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#/">Pizza perfetto</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <!-- <li><a href="#/gocrazy/layers">Go crazy</a></li>
+            <li><a href="#/alacarte">A la carte</a></li> -->
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="main-container container" ng-view=""></div>
 
     <script src="lib/underscore/underscore-min.js"></script>
     <script src="lib/angular/angular.js"></script>
@@ -33,7 +46,9 @@
         <script src="scripts/controllers/chooseyourstyle.js"></script>
         <script src="scripts/controllers/alacarteCtrl.js"></script>
         <script src="scripts/controllers/checkoutCtrl.js"></script>
+        <script src="scripts/controllers/goCrazyLayersCtrl.js"></script>
         <script src="scripts/controllers/thankYouCtrl.js"></script>
+        <script src="scripts/controllers/goCrazyToppingsCtrl.js"></script>
         <!-- endbuild -->
 </body>
 </html>

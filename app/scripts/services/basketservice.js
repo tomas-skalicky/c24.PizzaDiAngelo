@@ -3,7 +3,8 @@
 var services = services || angular.module('c24.PizzaDiAngeloApp.services', []);
 
 services.factory('BasketService', ['$http', '$q', '$timeout', 'PriceCalculatorService', function ($http, $q, $timeout, priceCalculator) {
-  var getNewAddress = function (name, street, zipcode, city, phone) {
+  var baseItems = [],
+    getNewAddress = function (name, street, zipcode, city, phone) {
     return {
       name: name || '',
       street: street || '',
@@ -35,32 +36,64 @@ services.factory('BasketService', ['$http', '$q', '$timeout', 'PriceCalculatorSe
     return pizzasCount;
   };
 
-  var addItem = function (pizza, count, ingredients) {
-    var basketItem;
-    var price = priceCalculator.calculate(pizza, count, ingredients);
+  var addItem = function (pizza, count) {
+    var basketItem = findBasketItemByPizza(this.basket.items, pizza),
+      price = priceCalculator.calculate(pizza, count);
 
-    if (ingredients !== undefined) {
-      // It's a selfmade pizza
-      basketItem = createAndAddBasketItem(this.basket.items, { pizza: pizza, ingredients: ingredients }, count, price);
+    if(basketItem) {
+      updateBasketItem(basketItem, count, price);
     } else {
-      // look, if there is an existing basketItem for the given pizza
-      basketItem = findBasketItemByPizza(this.basket.items, pizza);
-      if (basketItem !== null) {
-        updateBasketItem(basketItem, count, price);
-      } else {
-        basketItem = createAndAddBasketItem(this.basket.items, pizza, count, price);
-      }
+      basketItem = createAndAddBasketItem.call(this, this.basket.items, pizza, count, price);
     }
+
     this.basket.price = priceCalculator.calculateTotalPrice(this.basket.items);
     return basketItem;
   };
 
-  var clear = function () {
-    this.basket = { items: [], address: undefined, price: 0 };
+  var addBaseItem = function (pizza, count, ingredients) {
+    var basketItem = findBasketItemByPizza(this.basket.items, pizza),
+      price = priceCalculator.calculate(pizza, count, ingredients);
+
+    if(basketItem) {
+      updateBasketItem(basketItem, count, price);
+    } else {
+      basketItem = createAndAddBasketItem.call(this, this.basket.items, pizza, count, price, ingredients || []);
+      baseItems.push(basketItem);
+    }
+    this.basket.price = priceCalculator.calculateTotalPrice(this.basket.items);
+
+    return basketItem;
   };
 
-  var createAndAddBasketItem = function (basketItems, pizza, count, price) {
-    var basketItem = { pizza: pizza, count: count, price: price };
+  var clear = function () {
+    baseItems = [];
+    this.basket = {
+      items: [],
+      address: getNewAddress(),
+      price: 0
+    };
+  };
+
+  var createAndAddBasketItem = function (basketItems, pizza, count, price, ingredients) {
+    var that = this,
+      basketItem = {
+        pizza: pizza,
+        count: count,
+        price: price,
+        ingredients: ingredients,
+        isBasePizza: angular.isArray(ingredients),
+        addIngredient: function (ingredient) {
+          this.ingredients.push(ingredient);
+          this.price = priceCalculator.calculate(this.pizza, this.count, this.ingredients);
+          that.basket.price = priceCalculator.calculateTotalPrice(that.basket.items);
+        },
+        removeIngredient: function (ingredient) {
+          this.ingredients.splice(this.ingredients.indexOf(ingredient), 1);
+          this.price = priceCalculator.calculate(this.pizza, this.count, this.ingredients);
+          that.basket.price = priceCalculator.calculateTotalPrice(that.basket.items);
+        }
+      };
+
     basketItems.push(basketItem);
     return basketItem;
   };
@@ -91,6 +124,7 @@ services.factory('BasketService', ['$http', '$q', '$timeout', 'PriceCalculatorSe
         basketItem.count -= count;
         basketItem.price = basketItem.pizza.price * basketItem.count;
       } else {
+        baseItems.splice(baseItems.indexOf(basketItem));
         this.basket.items.splice(index, 1);
         basketItem.count = 0;
         basketItem.price = 0;
@@ -104,7 +138,11 @@ services.factory('BasketService', ['$http', '$q', '$timeout', 'PriceCalculatorSe
     basketItem.price += price;
   };
 
-  this.basket = { items: [], address: getNewAddress(), price: 0 };
+  var getBaseBasketItems = function () {
+    return baseItems;
+  };
+
+  clear.call(this);
 
   return {
     basket: this.basket,
@@ -112,8 +150,10 @@ services.factory('BasketService', ['$http', '$q', '$timeout', 'PriceCalculatorSe
     getTotalPizzaCountByPizzaId: getTotalPizzaCountByPizzaId,
     addAddress: addAddress,
     addItem: addItem,
+    addBaseItem: addBaseItem,
     clear: clear,
     removeItem: removeItem,
+    getBaseBasketItems: getBaseBasketItems,
     order: order
   };
 }]);

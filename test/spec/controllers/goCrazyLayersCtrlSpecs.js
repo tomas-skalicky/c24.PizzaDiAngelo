@@ -1,10 +1,12 @@
 'use strict';
 
-describe('Controller: ALaCarteCtrl', function(){
-  var $controllerService, $scope, $locationService,
+describe('Controller: GoCrazyLayersCtrl', function(){
+  var $controllerService,
+    $scope,
+    $locationService,
     controller,
-    pizzasMockResponse,
-	  inventoryService,
+    basePizzassMockResponse,
+    inventoryService,
     spyInventoryServiceFetchPizzas,
     basketService;
 
@@ -16,13 +18,14 @@ describe('Controller: ALaCarteCtrl', function(){
   beforeEach(inject(function($injector, $controller, $rootScope, $location, InventoryService, BasketService){
     inventoryService = InventoryService;
     basketService = BasketService;
-    pizzasMockResponse = [ { id: 1, name: 'Thin Crust' } ];
-  	$controllerService = $controller;
+    basePizzassMockResponse = [ { id: 1, name: 'Thin Crust' } ];
+    $controllerService = $controller;
     $locationService = $location;
     $scope = $rootScope.$new();
-    spyInventoryServiceFetchPizzas = spyOn(inventoryService, 'fetchPizzas').andReturn(pizzasMockResponse);
 
-    controller = $controllerService('ALaCarteCtrl', {
+    spyInventoryServiceFetchPizzas = spyOn(inventoryService, 'fetchBasePizzas').andReturn(basePizzassMockResponse);
+
+    controller = $controllerService('GoCrazyLayersCtrl', {
       $scope: $scope,
       $location: $locationService,
       InventoryService: inventoryService,
@@ -31,22 +34,18 @@ describe('Controller: ALaCarteCtrl', function(){
   }));
 
   it('Pizzas are defined', function(){
-  	expect($scope.pizzas).toBe(pizzasMockResponse);
+  	expect($scope.basePizzas).toBe(basePizzassMockResponse);
   });
 
-  it('Should call the inventoryService to fetch pizzas', function(){
-    expect(spyInventoryServiceFetchPizzas).toHaveBeenCalled();
-  });
-
-  describe('When checkout is done', function () {
+  describe('When the user wants to navigate to toppings', function () {
     var locationPathSpy;
     beforeEach(function () {
       locationPathSpy = spyOn($locationService, 'path');
-      $scope.checkout();
+      $scope.navigateToppings();
     });
 
-    it('Should use the location service to navigate to checkout', function () {
-      expect(locationPathSpy).toHaveBeenCalledWith('checkout');
+    it('Should use the location service to navigate to toppings', function () {
+      expect(locationPathSpy).toHaveBeenCalledWith('/gocrazy/toppings');
     });
   });
 
@@ -54,8 +53,8 @@ describe('Controller: ALaCarteCtrl', function(){
     var firstPizza,
       addItemSpy;
     beforeEach(function () {
-      addItemSpy = spyOn(basketService, 'addItem').andCallThrough();
-      firstPizza = $scope.pizzas[0]
+      addItemSpy = spyOn(basketService, 'addBaseItem').andCallThrough();
+      firstPizza = $scope.basePizzas[0]
       $scope.addToBasket(firstPizza);
       $scope.addToBasket(firstPizza);
       $scope.addToBasket(firstPizza);
@@ -64,8 +63,12 @@ describe('Controller: ALaCarteCtrl', function(){
     });
 
     it('Pizzas count in the basket shoud be 5', function(){
-      var pizza = $scope.pizzas[0];
+      var pizza = $scope.basePizzas[0];
       expect($scope.getPizzaCountFromBasket(pizza)).toBe(5);
+    });
+
+    it('BasketService.addItem should be called', function(){
+      expect(addItemSpy).toHaveBeenCalled();
     });
 
     it('BasketService.addItem should be called', function(){
@@ -87,7 +90,7 @@ describe('Controller: ALaCarteCtrl', function(){
       var pizza,
         removeItemSpy;
       beforeEach(function () {
-        pizza = $scope.pizzas[0];
+        pizza = $scope.basePizzas[0];
         removeItemSpy = spyOn(basketService, 'removeItem').andCallThrough();
         $scope.extractFromBasket(pizza);
       });
