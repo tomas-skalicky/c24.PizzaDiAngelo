@@ -26,6 +26,10 @@
       return 0;
     };
 
+    $scope.isCheckoutDisabled = function () {
+      return BasketService.basket.items.length === 0;
+    };
+
     $scope.checkout = function () {
       $location.path('checkout');
     };

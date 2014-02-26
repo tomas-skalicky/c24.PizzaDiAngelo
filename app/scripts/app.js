@@ -27,7 +27,21 @@ var controllers = angular.module('c24.PizzaDiAngeloApp.controllers', []);
       })
       .when('/checkout', {
         templateUrl: 'views/checkout.html',
-        controller: 'CheckoutCtrl'
+        controller: 'CheckoutCtrl',
+        resolve: {
+          load: ['$q', '$rootScope', '$location', 'BasketService', function ($q, $rootScope, $location, basketService) {
+            var deferred = $q.defer();
+
+            if(basketService.basket.items.length === 0) {
+              deferred.reject();
+              $location.path('/');
+            } else {
+              deferred.resolve();
+            }
+
+            return deferred.promise;
+          }]
+        }
       })
       .when('/thankyou', {
         templateUrl: 'views/thankYou.html',
