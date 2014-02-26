@@ -6,7 +6,7 @@
         <div class="col-md-4">{{ pizza.name }}</div>
         <div class="col-md-1">{{ pizza.price }}$</div>
         <div class="col-md-3">
-          <span ng-click="extractFromBasket(pizza)" class="btn btn-link">substract</span>|<span ng-click="addToBasket(pizza)" class="btn btn-link">add</span>
+          <span ng-click="addItemAndNavigateToCheckout(pizza)" class="btn btn-link">proceed</span>
         </div>
         <div class="col-md-1">{{ getPizzaCountFromBasket(pizza) }}</div>
       </div>
@@ -14,7 +14,6 @@
   </section>
   <section class="col-md-3">
     <div ng-include="'/views/basket.html'" ng-controller="BasketCtrl" ng-init="isEditable = true;"></div>
-    <button ng-click="navigateToppings()">Toppings</button>
   </section>
 </div>
 

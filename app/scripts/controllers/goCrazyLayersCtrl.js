@@ -18,6 +18,12 @@
       }
     };
 
+    $scope.addItemAndNavigateToCheckout = function (pizza) {
+      BasketService.clear();
+      $scope.addToBasket(pizza);
+      $scope.navigateToppings();
+    }
+
     $scope.getPizzaCountFromBasket = function(pizza) {
       var basketItem = BasketService.getItemsByPizzaId(pizza.id)[0];
       if(basketItem) {
