@@ -1,20 +1,28 @@
-<div>
-  <h4>Basket</h4>
-  <div ng-repeat="basketItem in basket.items">
-    <div class="row">
-      <div class="col-md-6">{{ basketItem.pizza.name }}</div>
-      <div class="col-md-1">{{ basketItem.count }}</div>
-      <div class="col-md-1">{{ basketItem.price }}$</div>
-      <div class="col-md-2" ng-show="isEditable">
-        <span class="btn btn-link" ng-click="removeItemFromBasket(basketItem)">delete</span>
-      </div>
-    </div>
-    <ul ng-show="basketItem.isBasePizza">
-      <li ng-repeat="ingredient in basketItem.ingredients" class="list-unstyled">
-        <div class="col-md-6">{{ingredient.name }}</div>
-        <div class="col-md-6">{{ingredient.price * basketItem.count }}$</div>
-      </li>
-    </ul>
+<div class="panel panel-info">
+  <div class="panel-heading">
+    <h3 class="panel-title">Basket</h3>
   </div>
-  </div><strong>Total price: {{ basket.price }}$<strong></div>
+  <div class="panel-body">
+    <ul class="list-group">
+      <table class="table table-stripped">
+        <tr ng-repeat="basketItem in basket.items">
+          <td>{{ basketItem.pizza.name }}</td>
+          <td>{{ basketItem.count }}</td>
+          <td>{{ basketItem.price }}$</td>
+          <td ng-if="basketItem.isBasePizza">
+            <ul>
+              <li ng-repeat="ingredient in basketItem.ingredients" class="list-unstyled">
+                <span>{{ingredient.name }}</span>
+                <span>{{ingredient.price * basketItem.count }}$</span>
+              </li>
+            </ul>
+          </td>
+          <td ng-show="isEditable">
+            <span class="btn btn-link" ng-click="removeItemFromBasket(basketItem)">delete</span>
+          </td>
+        </tr>
+      </table>
+    </ul>
+    <div class="panel-footer"><strong>Total price: {{ basket.price }}$<strong></div>
+  </div>
 </div>

@@ -2,7 +2,13 @@
   'use strict';
 
   controllers.controller('ALaCarteCtrl', function ($scope, $location, InventoryService, BasketService) {
-    $scope.pizzas = InventoryService.fetchPizzas();
+    $scope.pizzas = [];
+    $scope.isEmpty = true;
+    $scope.basketItems = BasketService.basket.items;
+
+    InventoryService.fetchPizzas().then(function (pizzas) {
+      $scope.pizzas = pizzas;
+    });
 
     $scope.addToBasket = function(pizza) {
       var basketItem = BasketService.addItem(pizza, 1);
@@ -12,7 +18,7 @@
       var basketItems = BasketService.getItemsByPizzaId(pizza.id),
         basketItem;
 
-      if(basketItems.length > 0) {
+      if (basketItems.length > 0) {
         basketItem = basketItems[0];
         BasketService.removeItem(basketItem, 1);
       }
@@ -33,6 +39,10 @@
     $scope.checkout = function () {
       $location.path('checkout');
     };
+
+    $scope.$watch('basketItems', function (newValue, oldValue) {
+      $scope.isEmpty = $scope.basketItems.length === 0;
+    }, true);
   });
 
 })(controllers);

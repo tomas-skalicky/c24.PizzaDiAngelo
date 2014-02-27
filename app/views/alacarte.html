@@ -13,7 +13,7 @@
     </div>
   </section>
   <section class="col-md-3">
-      <div ng-include="'/views/basket.html'" ng-controller="BasketCtrl" ng-init="isEditable = true;"></div>
+    <basket editable="true"></basket>
       <button ng-click="checkout()" ng-disabled="isCheckoutDisabled()" class="btn btn-default">checkout</button>
   </section>
 

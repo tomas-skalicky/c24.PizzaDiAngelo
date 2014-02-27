@@ -18,9 +18,5 @@
   "strict": true,
   "trailing": true,
   "smarttabs": true,
-  "globals": {
-    "angular": false,
-    "controllers": true,
-    "services": true
-  }
+  "globals": ["spyOn", "angular", "controllers", "services", "directives" ]
 }

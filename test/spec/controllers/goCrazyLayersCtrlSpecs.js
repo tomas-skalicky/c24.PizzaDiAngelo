@@ -15,7 +15,7 @@ describe('Controller: GoCrazyLayersCtrl', function(){
     module('c24.PizzaDiAngeloApp.controllers');
   });
 
-  beforeEach(inject(function($injector, $controller, $rootScope, $location, InventoryService, BasketService){
+  beforeEach(inject(function($injector, $controller, $rootScope, $location, $q, InventoryService, BasketService){
     inventoryService = InventoryService;
     basketService = BasketService;
     basePizzassMockResponse = [ { id: 1, name: 'Thin Crust' } ];
@@ -23,7 +23,7 @@ describe('Controller: GoCrazyLayersCtrl', function(){
     $locationService = $location;
     $scope = $rootScope.$new();
 
-    spyInventoryServiceFetchPizzas = spyOn(inventoryService, 'fetchBasePizzas').andReturn(basePizzassMockResponse);
+    spyInventoryServiceFetchPizzas = spyOn(inventoryService, 'fetchBasePizzas').andReturn($q.when(basePizzassMockResponse));
 
     controller = $controllerService('GoCrazyLayersCtrl', {
       $scope: $scope,
@@ -31,10 +31,12 @@ describe('Controller: GoCrazyLayersCtrl', function(){
       InventoryService: inventoryService,
       BasketService: basketService
     });
+
+    $scope.$digest();
   }));
 
   it('Pizzas are defined', function(){
-  	expect($scope.basePizzas).toBe(basePizzassMockResponse);
+    expect($scope.basePizzas).toBe(basePizzassMockResponse);
   });
 
   describe('When the user wants to navigate to toppings', function () {
@@ -54,7 +56,7 @@ describe('Controller: GoCrazyLayersCtrl', function(){
       addItemSpy;
     beforeEach(function () {
       addItemSpy = spyOn(basketService, 'addBaseItem').andCallThrough();
-      firstPizza = $scope.basePizzas[0]
+      firstPizza = $scope.basePizzas[0];
       $scope.addToBasket(firstPizza);
       $scope.addToBasket(firstPizza);
       $scope.addToBasket(firstPizza);
