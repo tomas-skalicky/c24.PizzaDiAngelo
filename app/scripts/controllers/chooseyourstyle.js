@@ -1,9 +1,11 @@
 (function(controllers) {
   'use strict';
 
-  controllers.controller('ChooseYourStyleCtrl', function ($scope, $location) {
+  controllers.controller('ChooseYourStyleCtrl', function ($scope, $location, BasketService) {
     $scope.styles = ['A la Carte', 'Go Crazy'];
     $scope.selectedstyle = '';
+
+    BasketService.clear();
 
     $scope.navigate = function () {
       if($scope.selectedstyle === $scope.styles[0]) {
