@@ -8,6 +8,7 @@ var directives = angular.module('c24.PizzaDiAngeloApp.directives', []);
     'ngRoute',
     'c24.PizzaDiAngeloApp.controllers',
     'c24.PizzaDiAngeloApp.services',
+    'c24.PizzaDiAngeloApp.directives',
   ])
   .config(function ($routeProvider) {
     $routeProvider

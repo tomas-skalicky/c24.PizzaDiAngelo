@@ -12,7 +12,7 @@ module.exports = function(config) {
     frameworks: ['jasmine'],
 
     preprocessors: {
-      'app/views/*.html': 'ng-html-js'
+      'app/views/**/*.html': ['html2js']
     },
 
     ngHtml2JsPreprocessor: {
@@ -33,7 +33,7 @@ module.exports = function(config) {
       'app/scripts/services/*.js',
       'app/scripts/controllers/*.js',
       'app/scripts/directives/*.js',
-      'test/mock/**/*.js',
+      'app/views/**/*.html',
       'test/spec/**/*.js'
     ],
 
