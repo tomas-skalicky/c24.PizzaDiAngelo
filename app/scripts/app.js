@@ -1,9 +1,11 @@
 var controllers = angular.module('c24.PizzaDiAngeloApp.controllers', []);
+var directives = angular.module('c24.PizzaDiAngeloApp.directives', []);
 
 (function () {
   'use strict';
 
   angular.module('c24.PizzaDiAngeloApp', [
+    'ngRoute',
     'c24.PizzaDiAngeloApp.controllers',
     'c24.PizzaDiAngeloApp.services',
   ])
