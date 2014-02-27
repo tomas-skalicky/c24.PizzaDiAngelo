@@ -11,9 +11,20 @@ module.exports = function(config) {
     // testing framework to use (jasmine/mocha/qunit/...)
     frameworks: ['jasmine'],
 
+    preprocessors: {
+      'app/views/**/*.html': ['html2js']
+    },
+
+    ngHtml2JsPreprocessor: {
+      stripPrefix: 'app/',
+    },
+
     // list of files / patterns to load in the browser
     files: [
       'app/lib/angular/angular.js',
+      'app/lib/angular-resource/angular-resource.js',
+      'app/lib/angular-route/angular-route.js',
+      'app/lib/angular-cache/dist/angular-cache.js',
       'app/lib/angular-mocks/angular-mocks.js',
       'app/lib/sinon/lib/sinon.js',
       'app/lib/sinon/lib/sinon/spy.js',
@@ -21,7 +32,8 @@ module.exports = function(config) {
       'app/scripts/*.js',
       'app/scripts/services/*.js',
       'app/scripts/controllers/*.js',
-      'test/mock/**/*.js',
+      'app/scripts/directives/*.js',
+      'app/views/**/*.html',
       'test/spec/**/*.js'
     ],
 

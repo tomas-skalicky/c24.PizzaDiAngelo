@@ -2,7 +2,11 @@
   'use strict';
 
   controllers.controller('GoCrazyLayersCtrl', function ($scope, $location, InventoryService, BasketService) {
-    $scope.basePizzas = InventoryService.fetchBasePizzas();
+    $scope.basePizzas = [];
+
+    InventoryService.fetchBasePizzas().then(function (basePizzas) {
+      $scope.basePizzas = basePizzas;
+    });
 
     $scope.addToBasket = function(pizza) {
       var basketItem = BasketService.addBaseItem(pizza, 1);

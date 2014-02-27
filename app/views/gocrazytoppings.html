@@ -14,7 +14,8 @@
     </div>
   </section>
   <section class="col-md-3">
-    <div ng-include="'/views/basket.html'" ng-controller="BasketCtrl" ng-init="isEditable = true;"></div>
+    <basket editable="true"></basket>
+    <br/>
     <button ng-click="checkout()">Checkout</button>
   </section>
 </div>
