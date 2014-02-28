@@ -28,12 +28,14 @@
     </div>
     <div class="main-container container" ng-view=""></div>
 
-    <script src="lib/underscore/underscore-min.js"></script>
+    <!-- build:js scripts/modules.js -->
     <script src="lib/angular/angular.js"></script>
     <script src="lib/angular-route/angular-route.js"></script>
     <script src="lib/angular-cache/dist/angular-cache.js"></script>
     <script src="lib/angular-resource/angular-resource.js"></script>
+    <!-- endbuild -->
 
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
     <script src="scripts/app.js"></script>
     <script src="scripts/services/inventoryservice.js"></script>
     <script src="scripts/services/pricecalculatorservice.js"></script>
@@ -46,5 +48,6 @@
     <script src="scripts/controllers/thankYouCtrl.js"></script>
     <script src="scripts/controllers/goCrazyToppingsCtrl.js"></script>
     <script src="scripts/directives/basketDirective.js"></script>
+    <!-- endbuild -->
 </body>
 </html>
