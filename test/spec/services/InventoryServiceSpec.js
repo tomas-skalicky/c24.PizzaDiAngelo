@@ -4,7 +4,7 @@ describe('InventoryService Spec', function () {
   var $http;
   var httpMock;
   var inventoryService;
-  var domainName = 'http://pizzaexpress-check24.rhcloud.com';
+  var domainName = 'http://c24-pizzaexpress.herokuapp.com';
 
   beforeEach(function () {
     module('c24.PizzaDiAngeloApp');
@@ -18,7 +18,10 @@ describe('InventoryService Spec', function () {
   }));
 
   it('should fetch all pizzas from our restserver', function () {
-    var expectedResult = [ { id: 1, name: 'Vegetarian Pizza' } ];
+    var expectedResult = [{
+      id: 1,
+      name: 'Vegetarian Pizza'
+    }];
 
     httpMock.expectGET(domainName + '/api/pizzas').respond(200, expectedResult);
 
@@ -32,7 +35,10 @@ describe('InventoryService Spec', function () {
   });
 
   it('should fetch all base pizzas from our restserver', function () {
-    var expectedResult = [ { id: 1, name: 'Thin Crust' } ];
+    var expectedResult = [{
+      id: 1,
+      name: 'Thin Crust'
+    }];
 
     httpMock.expectGET(domainName + '/api/basepizzas').respond(200, expectedResult);
 
@@ -46,7 +52,10 @@ describe('InventoryService Spec', function () {
   });
 
   it('should fetch all ingredients from our restserver', function () {
-    var expectedResult = [ { id: 1, name: 'Mushroom' } ];
+    var expectedResult = [{
+      id: 1,
+      name: 'Mushroom'
+    }];
 
     httpMock.expectGET(domainName + '/api/ingredients').respond(200, expectedResult);
 
@@ -61,7 +70,10 @@ describe('InventoryService Spec', function () {
 
   describe('When fetch was called twice', function () {
     it('Should call the rest server not more than once', function () {
-      var expectedResult = [ { id: 1, name: 'Mushroom' } ];
+      var expectedResult = [{
+        id: 1,
+        name: 'Mushroom'
+      }];
 
       spyOn($http, 'get').andCallThrough();
 
