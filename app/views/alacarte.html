@@ -1,20 +1,32 @@
 <div>
-  <h1>Pizza perfotto a la carte</h1>
-  <section class="col-md-9">
-    <div ng-repeat="pizza in pizzas">
-      <div class="row">
-        <div class="col-md-4">{{ pizza.name }}</div>
-        <div class="col-md-1">{{ pizza.price }}$</div>
-        <div class="col-md-3">
-          <span ng-click="extractFromBasket(pizza)" class="btn btn-link">substract</span>|<span ng-click="addToBasket(pizza)" class="btn btn-link">add</span>
-        </div>
-        <div class="col-md-1">{{ getPizzaCountFromBasket(pizza) }}</div>
-      </div>
-    </div>
-  </section>
-  <section class="col-md-3">
-    <basket editable="true"></basket>
-    <button ng-click="checkout()" class="btn btn-default" ng-disabled="isEmpty">checkout</button>
-  </section>
+	<h1>Pizza perfotto a la carte</h1>
+
+	<section class="col-md-9">
+		<input type="text" ng-model="search" ng-change="filterPizzas()"/>
+
+		<div ng-repeat="pizza in currentpizzasList">
+			<div class="row">
+				<div class="col-md-4">{{ pizza.name }}</div>
+				<div class="col-md-1">{{ pizza.price }}$</div>
+				<div class="col-md-3">
+					<span ng-click="extractFromBasket(pizza)" class="btn btn-link">substract</span>|<span ng-click="addToBasket(pizza)"
+																										  class="btn btn-link">add</span>
+				</div>
+				<div class="col-md-1">{{ getPizzaCountFromBasket(pizza) }}</div>
+			</div>
+		</div>
+
+		<div class="pagination">
+			<ul>
+				<li ng-repeat="n in range(0,getPageCount())">
+					<a ng-class="{ active: currentPageIndex === n}" ng-click="setCurrentpizzasAccordingPage(n)" class="btn">{{n + 1}}</a>
+				</li>
+			</ul>
+		</div>
+	</section>
+	<section class="col-md-3">
+		<basket editable="true"></basket>
+		<button ng-click="checkout()" class="btn btn-default" ng-disabled="isEmpty">checkout</button>
+	</section>
 
 </div>
