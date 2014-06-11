@@ -9,7 +9,7 @@ describe('Controller: ALaCarteCtrl', function () {
 		basketService;
 
 	beforeEach(function () {
-		module('c24.PizzaDiAngeloApp');
+    module('c24.PizzaDiAngeloApp');
 		module('c24.PizzaDiAngeloApp.controllers');
 	});
 
