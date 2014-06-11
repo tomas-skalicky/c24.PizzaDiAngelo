@@ -26,7 +26,7 @@ describe('Controller: ALaCarteCtrl', function () {
 
 		controller = $controllerService('ALaCarteCtrl', {
 			$scope: $scope,
-			$location: $locationService,
+      $location: $locationService,
 			InventoryService: inventoryService,
 			BasketService: basketService
 		});
